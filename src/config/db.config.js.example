@@ -1,0 +1,17 @@
+const { debug } = require("./general.config")
+
+const knex = require("knex")({
+  client: "pg",
+  connection: {
+    host: "localhost",
+    port: 5432,
+    user: "user",
+    password: "passwd",
+    database: "db",
+  },
+  pool: { min: 0, max: 3 },
+  acquireConnectionTimeout: 5000,
+  debug: debug,  
+})
+
+module.exports = knex

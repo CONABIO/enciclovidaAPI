@@ -1,0 +1,183 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "EncicloVida REST API",
+    "description": "Esta API contiene informacion sobre las especies y los registros geograficos de las mismas.",
+    "termsOfService": "https://biodiversidad.gob.mx/conabio/aviso-de-privacidad",
+    "contact": {
+      "name": "Contact",
+      "url": "https://enciclovida.mx",
+      "email": "enciclovida@conabio.gob.mx"
+    },
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/estados": {
+      "get": {
+        "tags": ["Estado"],
+        "summary": "Consulta todos los estados",
+        "description": "Regresa un listado de estados ordenados por nombre",
+        "operationId": "getEstados",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Pagina"
+          },
+          { "$ref": "#/components/parameters/PorPagina" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejemplo de respuesta valida"
+          }
+        }
+      }
+    },
+    "/estados/{entid}": {
+      "get": {
+        "tags": ["Estado"],
+        "summary": "Consulta la información por estado",
+        "description": "Regresa todos los metadatos asociados",
+        "operationId": "getEstado",
+        "parameters": [
+          {
+            "name": "entid",
+            "in": "path",
+            "required": true,
+            "description": "El ID del estado",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 32
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejemplo de respuesta valida"
+          }
+        }
+      }
+    },
+    "/municipios": {
+      "get": {
+        "tags": ["Municipio"],
+        "summary": "Consulta todos los municipios",
+        "description": "Regresa un listado de municipios ordenados por estado y nombre del municipio",
+        "operationId": "getMunicipios",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Pagina"
+          },
+          { "$ref": "#/components/parameters/PorPagina" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejemplo de respuesta valida"
+          }
+        }
+      }
+    },
+    "/municipios/{munid}": {
+      "get": {
+        "tags": ["Municipio"],
+        "summary": "Consulta la información por municipio",
+        "description": "Regresa todos los metadatos asociados",
+        "operationId": "getMunicipio",
+        "parameters": [
+          {
+            "name": "munid",
+            "in": "path",
+            "required": true,
+            "description": "El ID del municipio",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 3000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejemplo de respuesta valida"
+          }
+        }
+      }
+    },
+    "/anps": {
+      "get": {
+        "tags": ["ANP"],
+        "summary": "Consulta todas las ANPs",
+        "description": "Regresa un listado de ANPs ordenadas por estados coincidentes y nombre de la ANP",
+        "operationId": "getANPS",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Pagina"
+          },
+          { "$ref": "#/components/parameters/PorPagina" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejemplo de respuesta valida"
+          }
+        }
+      }
+    },
+    "/anps/{anpid}": {
+      "get": {
+        "tags": ["ANP"],
+        "summary": "Consulta la información por ANP",
+        "description": "Regresa todos los metadatos asociados",
+        "operationId": "getANP",
+        "parameters": [
+          {
+            "name": "anpid",
+            "in": "path",
+            "required": true,
+            "description": "El ID de la ANP",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 200
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejemplo de respuesta valida"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Pagina": {
+        "name": "pagina",
+        "in": "header",
+        "description": "El número de pagina a consultar",
+        "schema": {
+          "type": "number",
+          "format": "integer32",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      },
+      "PorPagina": {
+        "name": "por_pagina",
+        "in": "header",
+        "description": "El número de resultados por pagina",
+        "schema": {
+          "title": "Algo",
+          "type": "number",
+          "enum": [50, 100, 200],
+          "default": 100
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+node_modules
+src/config/general.config.js
+src/config/db.config.js
