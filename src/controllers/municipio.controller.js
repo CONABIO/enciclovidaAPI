@@ -18,7 +18,7 @@ const getMunicipios = (req, res, next) => {
 const getMunicipio = (req, res, next) => {
   validateReq(req.params, getMunicipioReq)
     .then(() => Municipio.getMunicipio(req))
-    .then((municipios) => res.send(municipios))
+    .then((municipio) => res.send(municipio))
     .catch(
       (errorHandler = (err) => {
         console.log("ERROR: ", err.message)

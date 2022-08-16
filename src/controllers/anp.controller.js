@@ -18,7 +18,7 @@ const getANPS = (req, res, next) => {
 const getANP = (req, res, next) => {
   validateReq(req.params, getANPReq)
     .then(() => ANP.getANP(req))
-    .then((anps) => res.send(anps))
+    .then((anp) => res.send(anp))
     .catch(
       (errorHandler = (err) => {
         console.log("ERROR: ", err.message)

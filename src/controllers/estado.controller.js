@@ -18,7 +18,7 @@ const getEstados = (req, res, next) => {
 const getEstado = (req, res, next) => {
   validateReq(req.params, getEstadoReq)
     .then(() => Estado.getEstado(req))
-    .then((estados) => res.send(estados))
+    .then((estado) => res.send(estado))
     .catch(
       (errorHandler = (err) => {
         console.log("ERROR: ", err.message)

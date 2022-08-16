@@ -5,6 +5,7 @@ const port = 3000
 
 app.use(bodyParser.json())
 app.disable("x-powered-by")
+app.use("/", [require("./src/routes/registro.routes")])
 app.use("/", [require("./src/routes/estado.routes")])
 app.use("/", [require("./src/routes/municipio.routes")])
 app.use("/", [require("./src/routes/anp.routes")])
