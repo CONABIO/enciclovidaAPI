@@ -1,4 +1,5 @@
 const debug = true
 const porPagina = 100
+const enciclovidaURL = "http://localhost:4000"
 
 module.exports = { debug, porPagina }

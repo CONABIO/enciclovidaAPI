@@ -1,4 +1,5 @@
 const _ = require("lodash")
+const axios = require("axios")
 const { porPagina } = require("../config/general.config")
 
 const options = {
@@ -45,4 +46,17 @@ const limitOffset = (req) => {
   return { limit: por_pagina, offset: (pagina - 1) * por_pagina }
 }
 
-module.exports = { validateReq, validateRes, limitOffset }
+// Para hacer peticiones ajax
+const ajaxRequest = (url, params) => {
+  return axios.get(url, {
+    params: params,
+  })
+}
+
+module.exports = {
+  validateReq,
+  validateRes,
+  paginadoDefault,
+  limitOffset,
+  ajaxRequest,
+}

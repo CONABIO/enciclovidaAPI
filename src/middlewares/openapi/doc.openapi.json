@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "EncicloVida REST API",
+    "title": "EncicloVida API",
     "description": "Esta API contiene informacion sobre las especies y los registros geograficos de las mismas.",
     "termsOfService": "https://biodiversidad.gob.mx/conabio/aviso-de-privacidad",
     "contact": {
@@ -18,6 +18,124 @@
     }
   ],
   "paths": {
+    "/especies": {
+      "get": {
+        "tags": ["Especie"],
+        "summary": "Consulta todos las especies",
+        "description": "Regresa un listado de especies ordenados por su clasificación taxonómica",
+        "operationId": "getEspecies",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Pagina"
+          },
+          { "$ref": "#/components/parameters/PorPagina" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejemplo de respuesta valida"
+          }
+        }
+      }
+    },
+    "/especies/{id}": {
+      "get": {
+        "tags": ["Especie"],
+        "summary": "Consulta la información de solo una especie por id",
+        "description": "Regresa todos los metadatos asociados",
+        "operationId": "getEspecie",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "El id de la especie",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 500000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejemplo de respuesta valida"
+          }
+        }
+      }
+    },
+    "/registros": {
+      "get": {
+        "tags": ["Registro"],
+        "summary": "Consulta todos los registros",
+        "description": "Regresa un listado de registros ordenados por ID",
+        "operationId": "getRegistros",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Pagina"
+          },
+          { "$ref": "#/components/parameters/PorPagina" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejemplo de respuesta valida"
+          }
+        }
+      }
+    },
+    "/registros/{id}": {
+      "get": {
+        "tags": ["Registro"],
+        "summary": "Consulta la información de solo un registro por id",
+        "description": "Regresa todos los metadatos asociados",
+        "operationId": "getRegistroById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "El id del registro",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 50000000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejemplo de respuesta valida"
+          }
+        }
+      }
+    },
+    "/registros/{idejemplar}/idejemplar": {
+      "get": {
+        "tags": ["Registro"],
+        "summary": "Consulta la información de solo un registro por idejemplar",
+        "description": "Regresa todos los metadatos asociados",
+        "operationId": "getRegistroByIdEjemplar",
+        "parameters": [
+          {
+            "name": "idejemplar",
+            "in": "path",
+            "required": true,
+            "description": "El idejemplar del registro (32 caracteres)",
+            "schema": {
+              "type": "string",
+              "format": "alphanum",
+              "pattern": "^[a-zA-Z0-9]+$",
+              "minLength": 32,
+              "maxLength": 32
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejemplo de respuesta valida"
+          }
+        }
+      }
+    },
     "/estados": {
       "get": {
         "tags": ["Estado"],
