@@ -5,7 +5,7 @@ const { validateReq, validateRes } = require("../utils/helper.util")
 
 const getMunicipios = (req, res, next) => {
   validateReq(req.headers, PaginadoReq)
-    .then(() => Municipio.getMunicipios(req))
+    .then((validated) => Municipio.getMunicipios({ headers: validated }))
     .then((municipios) => res.send(municipios))
     .catch(
       (errorHandler = (err) => {
@@ -17,7 +17,7 @@ const getMunicipios = (req, res, next) => {
 
 const getMunicipio = (req, res, next) => {
   validateReq(req.params, getMunicipioReq)
-    .then(() => Municipio.getMunicipio(req))
+    .then((validated) => Municipio.getMunicipio({ params: validated }))
     .then((municipio) => res.send(municipio))
     .catch(
       (errorHandler = (err) => {

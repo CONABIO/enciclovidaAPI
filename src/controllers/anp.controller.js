@@ -5,7 +5,7 @@ const { validateReq, validateRes } = require("../utils/helper.util")
 
 const getANPS = (req, res, next) => {
   validateReq(req.headers, PaginadoReq)
-    .then(() => ANP.getANPS(req))
+    .then((validated) => ANP.getANPS({ headers: validated }))
     .then((anps) => res.send(anps))
     .catch(
       (errorHandler = (err) => {
@@ -17,7 +17,7 @@ const getANPS = (req, res, next) => {
 
 const getANP = (req, res, next) => {
   validateReq(req.params, getANPReq)
-    .then(() => ANP.getANP(req))
+    .then((validated) => ANP.getANP({ params: validated }))
     .then((anp) => res.send(anp))
     .catch(
       (errorHandler = (err) => {

@@ -1,3 +1,4 @@
+const _ = require("lodash")
 const { enciclovidaURL } = require("../config/general.config")
 const { paginadoDefault, ajaxRequest } = require("../utils/helper.util")
 
@@ -43,12 +44,37 @@ const Especie = class Especie {
   static getEspeciesBusquedaRegion = async (req) => {
     const { pagina, por_pagina } = paginadoDefault(req.headers)
     const url = `${enciclovidaURL}/explora-por-region/especies.json`
-    const params = {
-      region_id: req.query.region_id,
-      tipo_region: req.query.tipo_region,
-      //por_pagina: 8, //Este por pagina viene definido desde rails por default
-      pagina: pagina,
-    }
+    const params = {}
+
+    if (!_.isNil(req.query.tipo_region))
+      params.tipo_region = req.query.tipo_region
+
+    if (!_.isNil(req.query.region_id)) params.region_id = req.query.region_id
+
+    if (!_.isNil(req.query.especie_id)) params.especie_id = req.query.especie_id
+
+    if (!_.isEmpty(req.query.dist)) params.dist = req.query.dist
+
+    // Este campo se separo en nom, iucn y cites para hacerlo mas entendible,
+    // de regreso en el query se vuelven a juntar
+    let edo_cons = _.concat(
+      req.query.nom_ids,
+      req.query.iucn_ids,
+      req.query.cites_ids,
+      req.query.ev_conabio_ids
+    )
+
+    edo_cons = _.compact(edo_cons)
+    if (!_.isEmpty(edo_cons)) params.edo_cons = edo_cons
+
+    if (!_.isEmpty(req.query.uso)) params.uso = req.query.uso
+
+    if (!_.isEmpty(req.query.forma)) params.forma = req.query.forma
+
+    if (!_.isEmpty(req.query.ambiente)) params.ambiente = req.query.ambiente
+
+    params.pagina = pagina
+    //params.por_pagina = 8, //Este por pagina viene definido desde rails por default
 
     return await ajaxRequest(url, params).then((especie) => {
       return especie.data

@@ -5,7 +5,7 @@ const { validateReq, validateRes } = require("../utils/helper.util")
 
 const getEstados = (req, res, next) => {
   validateReq(req.headers, PaginadoReq)
-    .then(() => Estado.getEstados(req))
+    .then((validated) => Estado.getEstados({ headers: validated }))
     .then((estados) => res.send(estados))
     .catch(
       (errorHandler = (err) => {
@@ -17,7 +17,7 @@ const getEstados = (req, res, next) => {
 
 const getEstado = (req, res, next) => {
   validateReq(req.params, getEstadoReq)
-    .then(() => Estado.getEstado(req))
+    .then((validated) => Estado.getEstado({ params: validated }))
     .then((estado) => res.send(estado))
     .catch(
       (errorHandler = (err) => {

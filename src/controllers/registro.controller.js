@@ -8,7 +8,7 @@ const { validateReq, validateRes } = require("../utils/helper.util")
 
 const getRegistros = (req, res, next) => {
   validateReq(req.headers, PaginadoReq)
-    .then(() => Registro.getRegistros(req))
+    .then((validated) => Registro.getRegistros({ headers: validated }))
     .then((registros) => res.send(registros))
     .catch(
       (errorHandler = (err) => {
@@ -20,7 +20,7 @@ const getRegistros = (req, res, next) => {
 
 const getRegistroById = (req, res, next) => {
   validateReq(req.params, getRegistroByIdReq)
-    .then(() => Registro.getRegistroById(req))
+    .then((validated) => Registro.getRegistroById({ params: validated }))
     .then((registro) => res.send(registro))
     .catch(
       (errorHandler = (err) => {
