@@ -1,5 +1,6 @@
+const enciclovidaURL = "http://localhost:4000"
+const port = 3000
 const debug = true
 const porPagina = 100
-const enciclovidaURL = "http://localhost:4000"
 
-module.exports = { debug, porPagina }
+module.exports = { enciclovidaURL, port, debug, porPagina }

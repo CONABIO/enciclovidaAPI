@@ -1,6 +1,9 @@
 const Estado = require("../models/estado")
 const PaginadoReq = require("../middlewares/openapi/schema/request/helper.request")
-const getEstadoReq = require("../middlewares/openapi/schema/request/estado.request")
+const {
+  getEstadoReq,
+  getEstadoUbicacionReq,
+} = require("../middlewares/openapi/schema/request/estado.request")
 const { validateReq, validateRes } = require("../utils/helper.util")
 
 const getEstados = (req, res, next) => {
@@ -27,4 +30,16 @@ const getEstado = (req, res, next) => {
     )
 }
 
-module.exports = { getEstados, getEstado }
+const getEstadoUbicacion = (req, res, next) => {
+  validateReq(req.query, getEstadoUbicacionReq)
+    .then((validated) => Estado.getEstadoUbicacion({ query: validated }))
+    .then((estado) => res.send(estado))
+    .catch(
+      (errorHandler = (err) => {
+        console.log("ERROR: ", err.message)
+        next()
+      })
+    )
+}
+
+module.exports = { getEstados, getEstado, getEstadoUbicacion }

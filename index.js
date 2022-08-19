@@ -1,7 +1,7 @@
 const express = require("express")
 const bodyParser = require("body-parser")
+const { port } = require("./src/config/general.config")
 const app = express()
-const port = 3000
 
 app.use(bodyParser.json())
 app.disable("x-powered-by")
