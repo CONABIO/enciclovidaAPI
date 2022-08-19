@@ -15,6 +15,18 @@ const Municipio = class Municipio {
   static getMunicipio = (req) => {
     return knex.from(this.tableName).where("munid", req.params.munid).first()
   }
+
+  static getMunicipioUbicacion = (req) => {
+    return knex
+      .select(this.basicFields)
+      .from(this.tableName)
+      .whereRaw(
+        "ST_Intersects(st_geometryfromtext('POINT(?? ??)', 4326) ,geom::geometry)",
+        [req.query.longitud, req.query.latitud]
+      )
+      .orderBy(["nom_ent"])
+      .first()
+  }
 }
 
 Municipio.basicFields = ["munid", "nom_mun", "nom_ent"]

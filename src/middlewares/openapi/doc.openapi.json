@@ -191,6 +191,23 @@
       }
     },
 
+    "/estados/ubicacion": {
+      "get": {
+        "tags": ["Estado"],
+        "summary": "Consulta el estado que coincide con tu ubicación",
+        "description": "Regresa solo el estado donde coincidió tu latitud y longitud. Solo funciona para México",
+        "operationId": "getEstadoUbicacion",
+        "parameters": [
+          { "$ref": "#/components/parameters/Latitud" },
+          { "$ref": "#/components/parameters/Longitud" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
     "/municipios": {
       "get": {
         "tags": ["Municipio"],
@@ -234,6 +251,23 @@
       }
     },
 
+    "/municipios/ubicacion": {
+      "get": {
+        "tags": ["Municipio"],
+        "summary": "Consulta el municipio que coincide con tu ubicación",
+        "description": "Regresa solo el municipio donde coincidió tu latitud y longitud. Solo funciona para México",
+        "operationId": "getMunicipioUbicacion",
+        "parameters": [
+          { "$ref": "#/components/parameters/Latitud" },
+          { "$ref": "#/components/parameters/Longitud" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
     "/anps": {
       "get": {
         "tags": ["ANP"],
@@ -269,6 +303,22 @@
               "maximum": 200
             }
           }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+    "/anps/ubicacion": {
+      "get": {
+        "tags": ["ANP"],
+        "summary": "Consulta las ANPs que coinciden con tu ubicación",
+        "description": "Regresa una lista de ANPs donde coincidieron tu latitud y longitud. Solo funciona para México",
+        "operationId": "getANPUbicacion",
+        "parameters": [
+          { "$ref": "#/components/parameters/Latitud" },
+          { "$ref": "#/components/parameters/Longitud" }
         ],
         "responses": {
           "200": { "$ref": "#/components/schemas/ValidResponse" },
@@ -467,6 +517,26 @@
             "type": "string",
             "enum": [1024, 1025, 1026, 1027, 1207, 1208, 1209, 1210]
           }
+        }
+      },
+      "Latitud": {
+        "name": "latitud",
+        "in": "query",
+        "required": true,
+        "description": "La latitud",
+        "schema": {
+          "type": "number",
+          "format": "lat"
+        }
+      },
+      "Longitud": {
+        "name": "longitud",
+        "in": "query",
+        "required": true,
+        "description": "La longitud",
+        "schema": {
+          "type": "number",
+          "format": "long"
         }
       },
       "Pagina": {
