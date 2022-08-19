@@ -47,9 +47,12 @@ const limitOffset = (req) => {
 }
 
 // Para hacer peticiones ajax
-const ajaxRequest = (url, params) => {
-  return axios.get(url, {
+const ajaxRequest = async (url, params) => {
+  return await axios.get(url, {
     params: params,
+    validateStatus: (status) => {
+      return status == 200 // Solo pasan los estatus 200 (lectura)
+    },
   })
 }
 

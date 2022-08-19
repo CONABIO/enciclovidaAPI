@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "EncicloVida API",
-    "description": "Esta API contiene informacion sobre las especies y los registros geograficos de las mismas.",
+    "description": "Esta API es la segunda versión con openapi 3, contiene informacion sobre las especies, registros geograficos de las mismas y regiones.",
     "termsOfService": "https://biodiversidad.gob.mx/conabio/aviso-de-privacidad",
     "contact": {
       "name": "Contact",
@@ -25,44 +25,58 @@
         "description": "Regresa un listado de especies ordenados por su clasificación taxonómica",
         "operationId": "getEspecies",
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Pagina"
-          },
+          { "$ref": "#/components/parameters/Pagina" },
           { "$ref": "#/components/parameters/PorPagina" }
         ],
         "responses": {
-          "200": {
-            "description": "Ejemplo de respuesta valida"
-          }
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
         }
       }
     },
+
     "/especies/{id}": {
       "get": {
         "tags": ["Especie"],
         "summary": "Consulta la información de solo una especie por id",
         "description": "Regresa todos los metadatos asociados",
         "operationId": "getEspecie",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "El id de la especie",
-            "schema": {
-              "type": "number",
-              "minimum": 1,
-              "maximum": 500000
-            }
-          }
-        ],
+        "parameters": [{ "$ref": "#/components/parameters/EspeciePath" }],
         "responses": {
-          "200": {
-            "description": "Ejemplo de respuesta valida"
-          }
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
         }
       }
     },
+
+    "/especies/busqueda/region": {
+      "get": {
+        "tags": ["Especie"],
+        "summary": "Consulta las especies por Estado, Municipio y ANP",
+        "description": "Regresa un listado de especies ordenados el número de registros",
+        "operationId": "getEspeciesBusquedaRegion",
+        "parameters": [
+          { "$ref": "#/components/parameters/TipoRegion" },
+          { "$ref": "#/components/parameters/Region" },
+          { "$ref": "#/components/parameters/Especie" },
+          { "$ref": "#/components/parameters/TipoDistribucion" },
+          { "$ref": "#/components/parameters/NOM" },
+          { "$ref": "#/components/parameters/IUCN" },
+          { "$ref": "#/components/parameters/CITES" },
+          { "$ref": "#/components/parameters/EvaluacionCONABIO" },
+          { "$ref": "#/components/parameters/Uso" },
+          { "$ref": "#/components/parameters/Forma" },
+          { "$ref": "#/components/parameters/Ambiente" },
+          { "$ref": "#/components/parameters/Pagina" },
+          { "$ref": "#/components/parameters/PorPagina" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
     "/registros": {
       "get": {
         "tags": ["Registro"],
@@ -70,18 +84,16 @@
         "description": "Regresa un listado de registros ordenados por ID",
         "operationId": "getRegistros",
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Pagina"
-          },
+          { "$ref": "#/components/parameters/Pagina" },
           { "$ref": "#/components/parameters/PorPagina" }
         ],
         "responses": {
-          "200": {
-            "description": "Ejemplo de respuesta valida"
-          }
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
         }
       }
     },
+
     "/registros/{id}": {
       "get": {
         "tags": ["Registro"],
@@ -102,12 +114,12 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Ejemplo de respuesta valida"
-          }
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
         }
       }
     },
+
     "/registros/{idejemplar}/idejemplar": {
       "get": {
         "tags": ["Registro"],
@@ -130,12 +142,12 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Ejemplo de respuesta valida"
-          }
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
         }
       }
     },
+
     "/estados": {
       "get": {
         "tags": ["Estado"],
@@ -143,18 +155,16 @@
         "description": "Regresa un listado de estados ordenados por nombre",
         "operationId": "getEstados",
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Pagina"
-          },
+          { "$ref": "#/components/parameters/Pagina" },
           { "$ref": "#/components/parameters/PorPagina" }
         ],
         "responses": {
-          "200": {
-            "description": "Ejemplo de respuesta valida"
-          }
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
         }
       }
     },
+
     "/estados/{entid}": {
       "get": {
         "tags": ["Estado"],
@@ -175,12 +185,12 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Ejemplo de respuesta valida"
-          }
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
         }
       }
     },
+
     "/municipios": {
       "get": {
         "tags": ["Municipio"],
@@ -188,18 +198,16 @@
         "description": "Regresa un listado de municipios ordenados por estado y nombre del municipio",
         "operationId": "getMunicipios",
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Pagina"
-          },
+          { "$ref": "#/components/parameters/Pagina" },
           { "$ref": "#/components/parameters/PorPagina" }
         ],
         "responses": {
-          "200": {
-            "description": "Ejemplo de respuesta valida"
-          }
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
         }
       }
     },
+
     "/municipios/{munid}": {
       "get": {
         "tags": ["Municipio"],
@@ -220,12 +228,12 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Ejemplo de respuesta valida"
-          }
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
         }
       }
     },
+
     "/anps": {
       "get": {
         "tags": ["ANP"],
@@ -233,18 +241,16 @@
         "description": "Regresa un listado de ANPs ordenadas por estados coincidentes y nombre de la ANP",
         "operationId": "getANPS",
         "parameters": [
-          {
-            "$ref": "#/components/parameters/Pagina"
-          },
+          { "$ref": "#/components/parameters/Pagina" },
           { "$ref": "#/components/parameters/PorPagina" }
         ],
         "responses": {
-          "200": {
-            "description": "Ejemplo de respuesta valida"
-          }
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
         }
       }
     },
+
     "/anps/{anpid}": {
       "get": {
         "tags": ["ANP"],
@@ -265,15 +271,204 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Ejemplo de respuesta valida"
-          }
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
         }
       }
     }
   },
+
   "components": {
+    "schemas": {
+      "ValidResponse": { "description": "Respuesta válida" },
+      "Default": {
+        "description": "Cualquier respuesta diferente a status 200",
+        "content": {
+          "application/json": {
+            "schema": {
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Not Found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "parameters": {
+      "Especie": {
+        "name": "especie_id",
+        "in": "query",
+        "description": "El id de la especie",
+        "schema": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 500000
+        }
+      },
+      "EspeciePath": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "El id de la especie",
+        "schema": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 500000
+        }
+      },
+      "TipoRegion": {
+        "name": "tipo_region",
+        "in": "query",
+        "description": "Puede ser un Estado, municipio o ANP",
+        "schema": {
+          "type": "string",
+          "enum": ["estado", "municipio", "anp"],
+          "x-enumNames": ["Estado", "Municipio", "ANP"]
+        }
+      },
+      "Region": {
+        "name": "region_id",
+        "in": "query",
+        "description": "El id de la region, para mas información consulta los end points de Estado, Municipio o ANP. \n\nEste campo depende del tipo_region",
+        "schema": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 3000
+        }
+      },
+      "TipoDistribucion": {
+        "name": "dist",
+        "in": "query",
+        "description": "Tipo de distribución:\n * `3` - Endémica\n * `7` - Nativa\n * `10` - Exótica\n * `6` - Exótica-Invasora",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "enum": [3, 7, 10, 6]
+          }
+        }
+      },
+      "NOM": {
+        "name": "nom_ids",
+        "in": "query",
+        "description": "Norma Oficial Mexicana (NOM-059):\n * `16` - Probablemente extinta en el medio silvestre (E)\n * `14` - En peligro de extinción (P)\n * `15` - Amenazada (A)\n * `17` - Sujeta a protección especial (Pr)",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "enum": [16, 14, 15, 17]
+          }
+        }
+      },
+      "IUCN": {
+        "name": "iucn_ids",
+        "in": "query",
+        "description": "Unión Internacional para la Conservación de la Naturaleza (IUCN):\n * `25` - Extinto (EX)\n * `26` - Extinto en estado silvestre (EW)\n * `27` - En peligro crítico (CR)\n * `28` - En peligro (EN)\n * `29` - Vulnerable (VU)",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "enum": [25, 26, 27, 28, 29]
+          }
+        }
+      },
+      "CITES": {
+        "name": "cites_ids",
+        "in": "query",
+        "description": "Comercio Internacional (CITES):\n * `22` - Apéndice I\n * `23` - Apéndice II\n * `24` - Apéndice III",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "enum": [22, 23, 24]
+          }
+        }
+      },
+      "EvaluacionCONABIO": {
+        "name": "ev_conabio_ids",
+        "in": "query",
+        "description": "Evaluación CONABIO:\n * `1102` - En peligro de extinción (P)\n * `1103` - Amenazada (A)\n * `1104` - Sujetas a protección especial (Pr)",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "enum": [1102, 1103, 1104]
+          }
+        }
+      },
+      "Uso": {
+        "name": "uso",
+        "in": "query",
+        "description": "Uso:\n * `11-4-0-0-0-0-0` - Ambiental\n * `11-16-0-0-0-0-0` - Artesanía\n * `11-5-0-0-0-0-0` - Combustible\n * `11-40-1-0-0-0-0` - Consumo animal\n * `11-40-2-0-0-0-0` - Consumo humano\n * `11-8-0-0-0-0-0` - Industrial\n * `11-47-0-0-0-0-0` - Maderable\n * `11-9-0-0-0-0-0` - Manejo de plagas\n * `11-10-0-0-0-0-0` - Materiales\n * `11-11-0-0-0-0-0` - Medicinal\n * `11-13-0-0-0-0-0` - Melífera\n * `11-15-0-0-0-0-0` - Ornamental\n * `11-14-0-0-0-0-0` - Sociales/religiosos",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "enum": [
+              "11-4-0-0-0-0-0",
+              "11-16-0-0-0-0-0",
+              "11-5-0-0-0-0-0",
+              "11-40-1-0-0-0-0",
+              "11-40-2-0-0-0-0",
+              "11-8-0-0-0-0-0",
+              "11-47-0-0-0-0-0",
+              "11-9-0-0-0-0-0",
+              "11-10-0-0-0-0-0",
+              "11-11-0-0-0-0-0",
+              "11-13-0-0-0-0-0",
+              "11-15-0-0-0-0-0",
+              "11-14-0-0-0-0-0"
+            ]
+          }
+        }
+      },
+      "Forma": {
+        "name": "forma",
+        "in": "query",
+        "description": "Forma de crecimiento (solo plantas):\n * `18-14-0-0-0-0-0` - Arborescente\n * `18-2-0-0-0-0-0` - Arbusto\n * `18-15-0-0-0-0-0` - Bejuco\n * `18-6-0-0-0-0-0` - Columnar\n * `18-9-0-0-0-0-0` - Epilítica\n * `18-7-0-0-0-0-0` - Epífita\n * `18-16-0-0-0-0-0` - Geófita\n * `18-3-0-0-0-0-0` - Hierba\n * `18-5-0-0-0-0-0` - Liana\n * `18-18-0-0-0-0-0` - Palma\n * `18-10-0-0-0-0-0` - Parásita\n * `18-11-0-0-0-0-0` - Rastrera\n * `18-8-0-0-0-0-0` - Rosetófila\n * `18-12-0-0-0-0-0` - Suculenta\n * `18-4-0-0-0-0-0` - Sufrútice\n * `18-13-0-0-0-0-0` - Taloide\n * `18-17-0-0-0-0-0` - Trepadora\n * `18-1-0-0-0-0-0` - Árbol",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "enum": [
+              "18-14-0-0-0-0-0",
+              "18-2-0-0-0-0-0",
+              "18-15-0-0-0-0-0",
+              "18-6-0-0-0-0-0",
+              "18-9-0-0-0-0-0",
+              "18-7-0-0-0-0-0",
+              "18-16-0-0-0-0-0",
+              "18-3-0-0-0-0-0",
+              "18-5-0-0-0-0-0",
+              "18-18-0-0-0-0-0",
+              "18-10-0-0-0-0-0",
+              "18-11-0-0-0-0-0",
+              "18-8-0-0-0-0-0",
+              "18-12-0-0-0-0-0",
+              "18-4-0-0-0-0-0",
+              "18-13-0-0-0-0-0",
+              "18-17-0-0-0-0-0",
+              "18-1-0-0-0-0-0"
+            ]
+          }
+        }
+      },
+      "Ambiente": {
+        "name": "ambiente",
+        "in": "query",
+        "description": "Ambiente:\n * `1024` - Marino\n * `1025` - Dulceacuícola\n * `1026` - Terrestre\n * `1027` - Salobre\n * `1207` - Salino\n * `1208` - Hiposalino\n * `1209` - Mesosalino\n * `1210` - Hipersalino",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "enum": [1024, 1025, 1026, 1027, 1207, 1208, 1209, 1210]
+          }
+        }
+      },
       "Pagina": {
         "name": "pagina",
         "in": "header",
@@ -282,7 +477,8 @@
           "type": "number",
           "format": "integer32",
           "minimum": 1,
-          "maximum": 1000000
+          "maximum": 1000000,
+          "example": 1
         }
       },
       "PorPagina": {
@@ -293,7 +489,7 @@
           "title": "Algo",
           "type": "number",
           "enum": [50, 100, 200],
-          "default": 100
+          "example": 100
         }
       }
     }
