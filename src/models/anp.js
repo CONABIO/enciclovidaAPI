@@ -15,6 +15,17 @@ const ANP = class ANP {
   static getANP = (req) => {
     return knex.from(this.tableName).where("anpid", req.params.anpid).first()
   }
+
+  static getANPUbicacion = (req) => {
+    return knex
+      .select(this.basicFields)
+      .from(this.tableName)
+      .whereRaw(
+        "ST_Intersects(st_geometryfromtext('POINT(?? ??)', 4326) ,geom::geometry)",
+        [req.query.longitud, req.query.latitud]
+      )
+      .orderBy(["estados", "nombre"])
+  }
 }
 
 ANP.basicFields = ["anpid", "nombre", "cat_manejo", "estados", "municipios"]

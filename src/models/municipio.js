@@ -24,7 +24,7 @@ const Municipio = class Municipio {
         "ST_Intersects(st_geometryfromtext('POINT(?? ??)', 4326) ,geom::geometry)",
         [req.query.longitud, req.query.latitud]
       )
-      .orderBy(["nom_ent"])
+      .orderBy(["nom_ent", "nom_mun"])
       .first()
   }
 }

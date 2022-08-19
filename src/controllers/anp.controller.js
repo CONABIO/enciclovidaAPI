@@ -1,6 +1,9 @@
 const ANP = require("../models/anp")
 const PaginadoReq = require("../middlewares/openapi/schema/request/helper.request")
-const getANPReq = require("../middlewares/openapi/schema/request/anp.request")
+const {
+  getANPReq,
+  getANPUbicacionReq,
+} = require("../middlewares/openapi/schema/request/anp.request")
 const { validateReq, validateRes } = require("../utils/helper.util")
 
 const getANPS = (req, res, next) => {
@@ -27,4 +30,16 @@ const getANP = (req, res, next) => {
     )
 }
 
-module.exports = { getANPS, getANP }
+const getANPUbicacion = (req, res, next) => {
+  validateReq(req.query, getANPUbicacionReq)
+    .then((validated) => ANP.getANPUbicacion({ query: validated }))
+    .then((anps) => res.send(anps))
+    .catch(
+      (errorHandler = (err) => {
+        console.log("ERROR: ", err.message)
+        next()
+      })
+    )
+}
+
+module.exports = { getANPS, getANP, getANPUbicacion }
