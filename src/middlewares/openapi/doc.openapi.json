@@ -152,6 +152,25 @@
       }
     },
 
+    "/autocompleta/especies": {
+      "get": {
+        "tags": ["Autocompleta"],
+        "summary": "Autocompleta por nombre común o científico",
+        "description": "Regresa un listado de especies ordenados por la categoría taxonómica",
+        "operationId": "getEspeciesAutocompleta",
+        "parameters": [
+          { "$ref": "#/components/parameters/Termino" },
+          { "$ref": "#/components/parameters/CategoriasPrincipales" },
+          { "$ref": "#/components/parameters/Categorias" },
+          { "$ref": "#/components/parameters/PorPaginaRedis" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
     "/estados": {
       "get": {
         "tags": ["Estado"],
@@ -523,6 +542,70 @@
           }
         }
       },
+      "Termino": {
+        "name": "q",
+        "in": "query",
+        "required": true,
+        "description": "Escribe parte de un nombre común o científico",
+        "schema": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50
+        }
+      },
+      "CategoriasPrincipales": {
+        "name": "cat_principales",
+        "in": "query",
+        "description": "Solo arrroja resultados de:\n\n especie, género, familia, orden, clase, phylum/división y reino",
+        "schema": { "type": "boolean", "default": true }
+      },
+      "Categorias": {
+        "name": "cat",
+        "in": "query",
+        "description": "Selecciona una o más. Este campo anula la selección de `cat_principales`",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "especie",
+              "subespecie",
+              "variedad",
+              "subvariedad",
+              "forma",
+              "subforma",
+              "Reino",
+              "subreino",
+              "superphylum",
+              "division",
+              "subdivision",
+              "phylum",
+              "subphylum",
+              "superclase",
+              "grado",
+              "clase",
+              "subclase",
+              "infraclase",
+              "superorden",
+              "orden",
+              "suborden",
+              "infraorden",
+              "superfamilia",
+              "familia",
+              "subfamilia",
+              "supertribu",
+              "tribu",
+              "subtribu",
+              "genero",
+              "subgenero",
+              "seccion",
+              "subseccion",
+              "serie",
+              "subserie"
+            ]
+          }
+        }
+      },
       "Latitud": {
         "name": "latitud",
         "in": "query",
@@ -560,10 +643,19 @@
         "in": "header",
         "description": "El número de resultados por pagina",
         "schema": {
-          "title": "Algo",
           "type": "number",
           "enum": [50, 100, 200],
           "example": 100
+        }
+      },
+      "PorPaginaRedis": {
+        "name": "por_pagina",
+        "in": "query",
+        "description": "El número de resultados por categoría taxonómica",
+        "schema": {
+          "type": "number",
+          "enum": [5, 10, 20],
+          "default": 5
         }
       }
     }
