@@ -1,6 +1,6 @@
 const Joi = require("joi")
 
-const getAutocompletaReq = Joi.object({
+const getEspeciesAutocompletaReq = Joi.object({
   q: Joi.string().min(2).max(50).required(),
   cat_principales: Joi.boolean(),
   cat: Joi.array()
@@ -46,4 +46,13 @@ const getAutocompletaReq = Joi.object({
   por_pagina: Joi.number().valid(5, 10, 20).default(5),
 }).or("cat_principales", "cat")
 
-module.exports = getAutocompletaReq
+const getRegionesAutocompletaReq = Joi.object({
+  q: Joi.string().min(2).max(50).required(),
+  reg: Joi.array()
+    .items(Joi.string().valid("estado", "municipio", "anp"))
+    .single()
+    .required(),
+  por_pagina: Joi.number().valid(5, 10, 20).default(5),
+})
+
+module.exports = { getEspeciesAutocompletaReq, getRegionesAutocompletaReq }

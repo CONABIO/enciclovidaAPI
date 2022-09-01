@@ -171,6 +171,24 @@
       }
     },
 
+    "/autocompleta/regiones": {
+      "get": {
+        "tags": ["Autocompleta"],
+        "summary": "Autocompleta por estado, municipio o ANP",
+        "description": "Regresa un listado de estados, municipios o ANPs",
+        "operationId": "getRegionesAutocompleta",
+        "parameters": [
+          { "$ref": "#/components/parameters/Termino" },
+          { "$ref": "#/components/parameters/Regiones" },
+          { "$ref": "#/components/parameters/PorPaginaRedis" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
     "/estados": {
       "get": {
         "tags": ["Estado"],
@@ -603,6 +621,19 @@
               "serie",
               "subserie"
             ]
+          }
+        }
+      },
+      "Regiones": {
+        "name": "reg",
+        "in": "query",
+        "required": true,
+        "description": "Selecciona una o más",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["estado", "municipio", "anp"]
           }
         }
       },

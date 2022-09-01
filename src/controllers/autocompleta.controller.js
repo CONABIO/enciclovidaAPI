@@ -1,9 +1,12 @@
 const Autocompleta = require("../models/autocompleta")
-const getAutocompletaReq = require("../middlewares/openapi/schema/request/autocompleta.request")
+const {
+  getEspeciesAutocompletaReq,
+  getRegionesAutocompletaReq,
+} = require("../middlewares/openapi/schema/request/autocompleta.request")
 const { validateReq, validateRes } = require("../utils/helper.util")
 
 const getEspeciesAutocompleta = (req, res, next) => {
-  validateReq(req.query, getAutocompletaReq)
+  validateReq(req.query, getEspeciesAutocompletaReq)
     .then((validated) =>
       Autocompleta.getEspeciesAutocompleta({ query: validated })
     )
@@ -16,4 +19,18 @@ const getEspeciesAutocompleta = (req, res, next) => {
     )
 }
 
-module.exports = getEspeciesAutocompleta
+const getRegionesAutocompleta = (req, res, next) => {
+  validateReq(req.query, getRegionesAutocompletaReq)
+    .then((validated) =>
+      Autocompleta.getRegionesAutocompleta({ query: validated })
+    )
+    .then((regiones) => res.send(regiones))
+    .catch(
+      (errorHandler = (err) => {
+        console.log("ERROR: ", err.message)
+        next()
+      })
+    )
+}
+
+module.exports = { getEspeciesAutocompleta, getRegionesAutocompleta }
