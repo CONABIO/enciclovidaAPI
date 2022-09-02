@@ -5,7 +5,7 @@ const getEspecieReq = Joi.object({
 })
 
 const getEspecieDescripcionReq = Joi.object({
-  from: Joi.string().valid(
+  fuente: Joi.string().valid(
     "conabio",
     "wikipedia_es",
     "wikipedia_en",
