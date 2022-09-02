@@ -74,10 +74,10 @@ const Especie = class Especie {
     if (!_.isEmpty(req.query.ambiente)) params.ambiente = req.query.ambiente
 
     params.pagina = pagina
-    //params.por_pagina = 8, //Este por pagina viene definido desde rails por default
+    params.por_pagina = por_pagina
 
     return await ajaxRequest(url, params).then((especie) => {
-      return especie.data
+      return especie.data.taxones
     })
   }
 }
