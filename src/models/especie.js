@@ -38,7 +38,7 @@ const Especie = class Especie {
     const url = `${enciclovidaURL}/especies/${req.params.id}/descripcion`
     const params = {}
 
-    if (!_.isNil(req.query.from)) params.from = req.query.from
+    if (!_.isNil(req.query.fuente)) params.from = req.query.fuente
     return await ajaxRequest(url, params).then((especie) => especie.data)
   }
 
