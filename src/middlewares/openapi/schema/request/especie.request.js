@@ -4,6 +4,16 @@ const getEspecieReq = Joi.object({
   id: Joi.number().min(1).max(500000).required(),
 })
 
+const getEspecieDescripcionReq = Joi.object({
+  from: Joi.string().valid(
+    "conabio",
+    "wikipedia_es",
+    "wikipedia_en",
+    "iucn",
+    "conabio_tecnico"
+  ),
+})
+
 const getEspeciesBusquedaRegionReq = Joi.object({
   region_id: Joi.number().min(1).max(3000),
   tipo_region: Joi.string().valid("estado", "municipio", "anp"),
@@ -78,4 +88,8 @@ const getEspeciesBusquedaRegionReq = Joi.object({
     .single(),
 })
 
-module.exports = { getEspecieReq, getEspeciesBusquedaRegionReq }
+module.exports = {
+  getEspecieReq,
+  getEspecieDescripcionReq,
+  getEspeciesBusquedaRegionReq,
+}

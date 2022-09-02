@@ -53,6 +53,23 @@
       }
     },
 
+    "/especies/{id}/descripcion": {
+      "get": {
+        "tags": ["Especie"],
+        "summary": "Consulta la descripción de la especie",
+        "description": "Regresa fuentes de información como CONABIO, Wikipedia (ES, EN) y IUCN en formato HTML",
+        "operationId": "getEspecieDescripcion",
+        "parameters": [
+          { "$ref": "#/components/parameters/EspeciePath" },
+          { "$ref": "#/components/parameters/Fuente" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
     "/especies/busqueda/region": {
       "get": {
         "tags": ["Especie"],
@@ -390,9 +407,10 @@
     },
 
     "parameters": {
-      "Especie": {
-        "name": "especie_id",
-        "in": "query",
+      "EspeciePath": {
+        "name": "id",
+        "in": "path",
+        "required": true,
         "description": "El id de la especie",
         "schema": {
           "type": "number",
@@ -400,10 +418,24 @@
           "maximum": 500000
         }
       },
-      "EspeciePath": {
-        "name": "id",
-        "in": "path",
-        "required": true,
+      "Fuente": {
+        "name": "fuente",
+        "in": "query",
+        "description": "Fuente:\n * `conabio` - Descripción completa de CONABIO\n * `wikipedia_es` - Wikipedia en español\n * `iucn` - Descripción de IUCN\n * `wikipedia_en` - Wikipedia en inglés\n * `conabio_tecnico` - Metadatos de CONABIO",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "conabio",
+            "wikipedia_es",
+            "iucn",
+            "wikipedia_en",
+            "conabio_tecnico"
+          ]
+        }
+      },
+      "Especie": {
+        "name": "especie_id",
+        "in": "query",
         "description": "El id de la especie",
         "schema": {
           "type": "number",

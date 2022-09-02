@@ -34,6 +34,14 @@ const Especie = class Especie {
     return await ajaxRequest(url, params).then((especie) => especie.data)
   }
 
+  static getEspecieDescripcion = async (req) => {
+    const url = `${enciclovidaURL}/especies/${req.params.id}/descripcion`
+    const params = {}
+
+    if (!_.isNil(req.query.from)) params.from = req.query.from
+    return await ajaxRequest(url, params).then((especie) => especie.data)
+  }
+
   /**
    * Es la misma informacion de la busqueda por region de rails
    * La respuesta es diferente a la de getEspecies por que una viene de
