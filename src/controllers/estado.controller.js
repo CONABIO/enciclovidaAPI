@@ -7,8 +7,8 @@ const {
 const { validateReq, validateRes } = require("../utils/helper.util")
 
 const getEstados = (req, res, next) => {
-  validateReq(req.headers, PaginadoReq)
-    .then((validated) => Estado.getEstados({ headers: validated }))
+  validateReq(req.query, PaginadoReq)
+    .then((validated) => Estado.getEstados({ query: validated }))
     .then((estados) => res.send(estados))
     .catch(
       (errorHandler = (err) => {

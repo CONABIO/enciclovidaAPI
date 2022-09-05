@@ -691,7 +691,7 @@
       },
       "Pagina": {
         "name": "pagina",
-        "in": "header",
+        "in": "query",
         "description": "El número de pagina a consultar",
         "schema": {
           "type": "number",
@@ -703,7 +703,7 @@
       },
       "PorPagina": {
         "name": "por_pagina",
-        "in": "header",
+        "in": "query",
         "description": "El número de resultados por pagina",
         "schema": {
           "type": "number",

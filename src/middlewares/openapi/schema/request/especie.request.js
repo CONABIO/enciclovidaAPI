@@ -1,4 +1,5 @@
 const Joi = require("joi")
+const PaginadoReq = require("./helper.request")
 
 const getEspecieReq = Joi.object({
   id: Joi.number().min(1).max(500000).required(),
@@ -14,7 +15,7 @@ const getEspecieDescripcionReq = Joi.object({
   ),
 })
 
-const getEspeciesBusquedaRegionReq = Joi.object({
+const getEspeciesBusquedaRegionReq = PaginadoReq.keys({
   region_id: Joi.number().min(1).max(3000),
   tipo_region: Joi.string().valid("estado", "municipio", "anp"),
   especie_id: Joi.number().min(1).max(500000),

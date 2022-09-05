@@ -9,7 +9,7 @@ const Estado = class Estado {
       .from(this.tableName)
       .orderBy(["nom_ent"])
 
-    const { limit, offset } = limitOffset(req.headers)
+    const { limit, offset } = limitOffset(req.query)
     return query.limit(limit).offset(offset)
   }
 

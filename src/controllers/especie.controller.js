@@ -8,8 +8,8 @@ const {
 const { validateReq, validateRes } = require("../utils/helper.util")
 
 const getEspecies = (req, res, next) => {
-  validateReq(req.headers, PaginadoReq)
-    .then((validated) => Especie.getEspecies({ headers: validated }))
+  validateReq(req.query, PaginadoReq)
+    .then((validated) => Especie.getEspecies({ query: validated }))
     .then((especies) => res.send(especies))
     .catch(
       (errorHandler = (err) => {
@@ -44,7 +44,6 @@ const EspecieDescripcionVal = (req) => {
 }
 
 const getEspecieDescripcion = (req, res, next) => {
-  console.log(req.query)
   EspecieDescripcionVal(req)
     .then((validated) => Especie.getEspecieDescripcion(validated))
     .then((especie) => res.send(especie))
@@ -56,30 +55,16 @@ const getEspecieDescripcion = (req, res, next) => {
     )
 }
 
-/**
- * Se anidan las promesas para asgurar que al final se concatenen los parametros
- * @param {*} req Es el request que viene desde la ruta
- * @returns Todos los parametros validados con joi ya sea en el header o en el query
- */
-const EspeciesBusquedaRegionVal = (req) => {
-  return new Promise((resolve, reject) => {
-    validateReq(req.headers, PaginadoReq).then((validatedHeaders) => {
-      validateReq(req.query, getEspeciesBusquedaRegionReq).then(
-        (validatedQuery) => {
-          resolve({ headers: validatedHeaders, query: validatedQuery })
-        }
-      )
-    })
-  })
-}
-
 const getEspeciesBusquedaRegion = (req, res, next) => {
-  EspeciesBusquedaRegionVal(req)
-    .then((validated) => Especie.getEspeciesBusquedaRegion(validated))
+  //EspeciesBusquedaRegionVal(req)
+  validateReq(req.query, getEspeciesBusquedaRegionReq)
+    .then((validated) =>
+      Especie.getEspeciesBusquedaRegion({ query: validated })
+    )
     .then((especies) => res.send(especies))
     .catch(
       (errorHandler = (err) => {
-        console.log("ERROR: ", err.message)
+        console.log("ERROR: ", err)
         next()
       })
     )

@@ -31,11 +31,8 @@ const validateRes = (results, schema) => {
 // Default pagina y por_pagina
 const paginadoDefault = (req) => {
   const paginado = {}
-  if (_.isNil(req.pagina)) {
-    paginado.pagina = 1
-  } else {
-    paginado.pagina = req.pagina
-  }
+  if (_.isNil(req.pagina)) paginado.pagina = 1
+  else paginado.pagina = req.pagina
 
   if (_.isNil(req.por_pagina)) paginado.por_pagina = porPagina
   else paginado.por_pagina = req.por_pagina

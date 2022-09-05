@@ -8,7 +8,7 @@ const ANP = class ANP {
       .from(this.tableName)
       .orderBy(["estados", "nombre"])
 
-    const { limit, offset } = limitOffset(req.headers)
+    const { limit, offset } = limitOffset(req.query)
     return query.limit(limit).offset(offset)
   }
 

@@ -8,7 +8,7 @@ const Registro = class Registro {
       .from(this.tableName)
       .orderBy(["id"])
 
-    const { limit, offset } = limitOffset(req.headers)
+    const { limit, offset } = limitOffset(req.query)
     return query.limit(limit).offset(offset)
   }
 

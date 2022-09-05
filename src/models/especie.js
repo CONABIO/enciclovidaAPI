@@ -9,7 +9,7 @@ const Especie = class Especie {
    * @returns Un listado de especies
    */
   static getEspecies = async (req) => {
-    const { pagina, por_pagina } = paginadoDefault(req.headers)
+    const { pagina, por_pagina } = paginadoDefault(req.query)
     const url = `${enciclovidaURL}/busquedas/resultados.json`
     const params = {
       busqueda: "avanzada",
@@ -50,7 +50,8 @@ const Especie = class Especie {
    * @returns Un listado de especies
    */
   static getEspeciesBusquedaRegion = async (req) => {
-    const { pagina, por_pagina } = paginadoDefault(req.headers)
+    console.log(req, "calonso")
+    const { pagina, por_pagina } = paginadoDefault(req.query)
     const url = `${enciclovidaURL}/explora-por-region/especies.json`
     const params = {}
 

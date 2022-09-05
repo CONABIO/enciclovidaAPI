@@ -7,8 +7,8 @@ const {
 const { validateReq, validateRes } = require("../utils/helper.util")
 
 const getRegistros = (req, res, next) => {
-  validateReq(req.headers, PaginadoReq)
-    .then((validated) => Registro.getRegistros({ headers: validated }))
+  validateReq(req.query, PaginadoReq)
+    .then((validated) => Registro.getRegistros({ query: validated }))
     .then((registros) => res.send(registros))
     .catch(
       (errorHandler = (err) => {

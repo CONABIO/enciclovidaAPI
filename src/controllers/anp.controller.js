@@ -7,8 +7,8 @@ const {
 const { validateReq, validateRes } = require("../utils/helper.util")
 
 const getANPS = (req, res, next) => {
-  validateReq(req.headers, PaginadoReq)
-    .then((validated) => ANP.getANPS({ headers: validated }))
+  validateReq(req.query, PaginadoReq)
+    .then((validated) => ANP.getANPS({ query: validated }))
     .then((anps) => res.send(anps))
     .catch(
       (errorHandler = (err) => {

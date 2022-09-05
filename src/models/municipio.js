@@ -8,7 +8,7 @@ const Municipio = class Municipio {
       .from(this.tableName)
       .orderBy(["nom_ent", "nom_mun"])
 
-    const { limit, offset } = limitOffset(req.headers)
+    const { limit, offset } = limitOffset(req.query)
     return query.limit(limit).offset(offset)
   }
 
