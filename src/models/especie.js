@@ -17,8 +17,15 @@ const Especie = class Especie {
       pagina: pagina,
     }
 
-    return await ajaxRequest(url, params).then((result) => {
-      return result.data.taxa
+    return await ajaxRequest(url, params).then((especies) => {
+      let resultados = {
+        pagina: pagina,
+        especies: especies.data.taxa,
+      }
+
+      if (pagina == 1) resultados.num_especies = especies.data.x_total_entries
+
+      return resultados
     })
   }
 
@@ -50,7 +57,6 @@ const Especie = class Especie {
    * @returns Un listado de especies
    */
   static getEspeciesBusquedaRegion = async (req) => {
-    console.log(req, "calonso")
     const { pagina, por_pagina } = paginadoDefault(req.query)
     const url = `${enciclovidaURL}/explora-por-region/especies.json`
     const params = {}
@@ -85,8 +91,18 @@ const Especie = class Especie {
     params.pagina = pagina
     params.por_pagina = por_pagina
 
-    return await ajaxRequest(url, params).then((especie) => {
-      return especie.data.taxones
+    return await ajaxRequest(url, params).then((especies) => {
+      let resultados = {
+        pagina: pagina,
+        especies: especies.data.taxones,
+      }
+
+      if (pagina == 1) {
+        resultados.num_especies = especies.data.totales
+        resultados.num_ejemplares = especies.data.num_ejemplares
+      }
+
+      return resultados
     })
   }
 }

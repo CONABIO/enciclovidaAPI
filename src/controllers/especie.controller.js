@@ -10,7 +10,13 @@ const { validateReq, validateRes } = require("../utils/helper.util")
 const getEspecies = (req, res, next) => {
   validateReq(req.query, PaginadoReq)
     .then((validated) => Especie.getEspecies({ query: validated }))
-    .then((especies) => res.send(especies))
+    .then((resultados) => {
+      // Para poner los totales en el header solo en la primera pagina
+      if (resultados.pagina == 1) {
+        res.setHeader("num_especies", resultados.num_especies)
+      }
+      res.send(resultados.especies)
+    })
     .catch(
       (errorHandler = (err) => {
         console.log("ERROR: ", err.message)
@@ -56,12 +62,18 @@ const getEspecieDescripcion = (req, res, next) => {
 }
 
 const getEspeciesBusquedaRegion = (req, res, next) => {
-  //EspeciesBusquedaRegionVal(req)
   validateReq(req.query, getEspeciesBusquedaRegionReq)
     .then((validated) =>
       Especie.getEspeciesBusquedaRegion({ query: validated })
     )
-    .then((especies) => res.send(especies))
+    .then((resultados) => {
+      // Para poner los totales en el header solo en la primera pagina
+      if (resultados.pagina == 1) {
+        res.setHeader("num_especies", resultados.num_especies)
+        res.setHeader("num_ejemplares", resultados.num_ejemplares)
+      }
+      res.send(resultados.especies)
+    })
     .catch(
       (errorHandler = (err) => {
         console.log("ERROR: ", err)
