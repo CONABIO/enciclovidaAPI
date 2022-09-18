@@ -26,6 +26,10 @@ const ANP = class ANP {
       )
       .orderBy(["estados", "nombre"])
   }
+
+  static getNumANPS = () => {
+    return knex.first().from(this.tableName).count()
+  }
 }
 
 ANP.basicFields = ["anpid", "nombre", "cat_manejo", "estados", "municipios"]

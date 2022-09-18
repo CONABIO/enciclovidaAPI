@@ -9,7 +9,22 @@ const { validateReq, validateRes } = require("../utils/helper.util")
 const getMunicipios = (req, res, next) => {
   validateReq(req.query, PaginadoReq)
     .then((validated) => Municipio.getMunicipios({ query: validated }))
-    .then((municipios) => res.send(municipios))
+    .then((municipios) => {
+      // Para poner los totales en el header solo en la primera pagina
+      if (req.query.pagina == "1") {
+        Municipio.getNumMunicipios()
+          .then((num_municipios) => {
+            res.setHeader("num_municipios", num_municipios.count)
+            res.send(municipios)
+          })
+          .catch(
+            (errorHandler = (err) => {
+              console.log("ERROR: ", err.message)
+              next()
+            })
+          )
+      } else res.send(municipios)
+    })
     .catch(
       (errorHandler = (err) => {
         console.log("ERROR: ", err.message)

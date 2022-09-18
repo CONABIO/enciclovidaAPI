@@ -28,6 +28,10 @@ const Estado = class Estado {
       .orderBy(["nom_ent"])
       .first()
   }
+
+  static getNumEstados = () => {
+    return knex.first().from(this.tableName).count()
+  }
 }
 
 Estado.basicFields = ["entid", "nom_ent"]

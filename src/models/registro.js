@@ -22,6 +22,10 @@ const Registro = class Registro {
       .where("idejemplar", req.params.idejemplar)
       .first()
   }
+
+  static getNumRegistros = () => {
+    return knex.first("id").from(this.tableName).orderBy("id", "desc")
+  }
 }
 
 Registro.basicFields = [

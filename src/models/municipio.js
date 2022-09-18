@@ -27,6 +27,10 @@ const Municipio = class Municipio {
       .orderBy(["nom_ent", "nom_mun"])
       .first()
   }
+
+  static getNumMunicipios = () => {
+    return knex.first().from(this.tableName).count()
+  }
 }
 
 Municipio.basicFields = ["munid", "nom_mun", "nom_ent"]
