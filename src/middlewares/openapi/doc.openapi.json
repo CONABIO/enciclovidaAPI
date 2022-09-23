@@ -709,7 +709,7 @@
         "description": "El número de resultados por pagina",
         "schema": {
           "type": "number",
-          "enum": [50, 100, 200],
+          "enum": [10, 50, 100, 200],
           "example": 50
         }
       },
