@@ -17,7 +17,7 @@
       "description": "Production server"
     },
     {
-      "url": "http://localhost:3000/",
+      "url": "http://localhost:3001/",
       "description": "Development server"
     }
   ],
@@ -88,6 +88,8 @@
           { "$ref": "#/components/parameters/Uso" },
           { "$ref": "#/components/parameters/Forma" },
           { "$ref": "#/components/parameters/Ambiente" },
+          { "$ref": "#/components/parameters/Guia" },
+          { "$ref": "#/components/parameters/Correo" },
           { "$ref": "#/components/parameters/Pagina" },
           { "$ref": "#/components/parameters/PorPagina" }
         ],
@@ -590,6 +592,23 @@
             "type": "string",
             "enum": [1024, 1025, 1026, 1027, 1207, 1208, 1209, 1210]
           }
+        }
+      },
+      "Guia": {
+        "name": "guia",
+        "in": "query",
+        "description": "Para poder mandar a un correo la guía de especies.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "Correo": {
+        "name": "correo",
+        "in": "query",
+        "description": "Para enviar a tu `correo` hay que seleccionar el campo `guia` o `lista`. Para la `guia` es necesario llenar estos campos:\n * `tipo_region`, solo valores \"municipio\" y \"anp\"\n * `region_id`\n * `especie_id`",
+        "schema": {
+          "type": "string",
+          "format": "email"
         }
       },
       "Termino": {

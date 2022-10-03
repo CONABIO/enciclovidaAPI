@@ -87,6 +87,8 @@ const getEspeciesBusquedaRegionReq = PaginadoReq.keys({
       )
     )
     .single(),
+  guia: Joi.boolean(),
+  correo: Joi.string().email(),
 })
 
 module.exports = {

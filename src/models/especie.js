@@ -80,6 +80,7 @@ const Especie = class Especie {
     )
 
     edo_cons = _.compact(edo_cons)
+
     if (!_.isEmpty(edo_cons)) params.edo_cons = edo_cons
 
     if (!_.isEmpty(req.query.uso)) params.uso = req.query.uso
@@ -88,24 +89,36 @@ const Especie = class Especie {
 
     if (!_.isEmpty(req.query.ambiente)) params.ambiente = req.query.ambiente
 
-    params.pagina = pagina
-    params.por_pagina = por_pagina
+    if (!_.isEmpty(req.query.correo) && req.query.guia) {
+      params.correo = req.query.correo
+      params.guia = "1"
+    } else {
+      params.pagina = pagina
+      params.por_pagina = por_pagina
+    }
 
     return await ajaxRequest(url, params).then((especies) => {
-      let resultados = {
-        pagina: pagina,
-        especies: especies.data.taxones,
-      }
+      const resultados = {}
+      if (req.query.guia) {
+        resultados.especies = especies.data
+      } else {
+        resultados.especies = especies.data.taxones
 
-      if (pagina == 1) {
-        resultados.num_especies = especies.data.totales
-        resultados.num_ejemplares = especies.data.num_ejemplares
+        if (pagina == 1) {
+          resultados.pagina = pagina
+          resultados.num_especies = especies.data.totales
+          resultados.num_ejemplares = especies.data.num_ejemplares
+        }
       }
 
       return resultados
     })
   }
 }
+
+//{"tipo_region"=>"municipio", "region_id"=>"204", "especie_id"=>"22654", "correo"=>"calonso@conabio.gob.mx", "guia"=>"1", "nivel"=>">=", "cat"=>"7100", "id_gi"=>"22654", "pagina"=>"1", "por_pagina"=>"50"}
+
+//{"utf8"=>"✓", "nombre_region"=>"Coyoacán, Ciudad de México", "region_id"=>"204", "tipo_region"=>"municipio", "especie_id"=>"22654", "pagina"=>"1", "nivel"=>"=", "cat"=>"7100", "id_gi"=>"22654", "correo"=>"calonso@conabio.gob.mx", "guia"=>"1"}
 
 Especie.basicFields = ["entid", "nom_ent"]
 Especie.tableName = "estados"
