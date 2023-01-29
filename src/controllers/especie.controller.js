@@ -6,6 +6,7 @@ const {
   getEspeciesBusquedaRegionReq,
 } = require("../middlewares/openapi/schema/request/especie.request")
 const { validateReq, validateRes } = require("../utils/helper.util")
+//const { ajaxRequest } = require("../utils/helper.util")
 
 const getEspecies = (req, res, next) => {
   validateReq(req.query, PaginadoReq)
@@ -76,15 +77,81 @@ const getEspeciesBusquedaRegion = (req, res, next) => {
     })
     .catch(
       (errorHandler = (err) => {
-        console.log("ERROR: ", err)
+        console.log("ERROR: ", err.message)
         next()
       })
     )
 }
+
+const getEspeciesBusquedaRegionIconos = (req, res, next) => {
+  ajaxEspecies()
+    .then((especies) => {
+      ajaxIconos(especies.data).then((especiesIconos) => {
+        console.log(especiesIconos)
+        res.send(especiesIconos)
+      })
+    })
+    .catch(
+      (errorHandler = (err) => {
+        console.log("ERROR: ", err.message)
+        next()
+      })
+    )
+}
+
+/*
+const ajaxEspecies = async () => {
+  let url = "https://api.enciclovida.mx/v2/especies/busqueda/region"
+  let params = {
+    tipo_region: "municipio",
+    region_id: 450,
+    pagina: 1,
+    por_pagina: 10,
+  }
+
+  return await ajaxRequest(url, params)
+}
+
+const ajaxIconos = (especies) => {
+  return new Promise((resolve, reject) => {
+    especiesIconos = []
+
+    especies.forEach((especie) => {
+      let url = "https://api.enciclovida.mx/v2/autocompleta/especies"
+      let params = {
+        q: especie.especie.NombreCompleto,
+        cat_principales: false,
+        cat: "especie",
+        por_pagina: 5,
+      }
+
+      res = ajaxRequest(url, params).then((e) => {
+        console.log(e.data)
+        especies[0].especie.calonso = true
+        return {
+          especie: especie.especie,
+          cons_amb_dist: e.data.especie[0].cons_amb_dist,
+        }
+        // especiesIconos.push({
+        //   especie: especie.especie,
+        //   cons_amb_dist: e.data.especie[0].cons_amb_dist,
+        // })
+      })
+
+      especiesIconos.push(res)
+    })
+
+    //console.log(especiesIconos)
+
+    resolve(especiesIconos)
+  })
+}
+*/
 
 module.exports = {
   getEspecies,
   getEspecie,
   getEspecieDescripcion,
   getEspeciesBusquedaRegion,
+  //getEspeciesBusquedaRegionIconos,
 }
