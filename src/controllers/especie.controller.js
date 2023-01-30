@@ -3,13 +3,14 @@ const PaginadoReq = require("../middlewares/openapi/schema/request/helper.reques
 const {
   getEspecieReq,
   getEspecieDescripcionReq,
+  getEspeciesReq,
   getEspeciesBusquedaRegionReq,
 } = require("../middlewares/openapi/schema/request/especie.request")
-const { validateReq, validateRes } = require("../utils/helper.util")
+const { validateReq } = require("../utils/helper.util")
 //const { ajaxRequest } = require("../utils/helper.util")
 
 const getEspecies = (req, res, next) => {
-  validateReq(req.query, PaginadoReq)
+  validateReq(req.query, getEspeciesReq)
     .then((validated) => Especie.getEspecies({ query: validated }))
     .then((resultados) => {
       // Para poner los totales en el header solo en la primera pagina
@@ -83,6 +84,7 @@ const getEspeciesBusquedaRegion = (req, res, next) => {
     )
 }
 
+/*
 const getEspeciesBusquedaRegionIconos = (req, res, next) => {
   ajaxEspecies()
     .then((especies) => {
@@ -99,7 +101,6 @@ const getEspeciesBusquedaRegionIconos = (req, res, next) => {
     )
 }
 
-/*
 const ajaxEspecies = async () => {
   let url = "https://api.enciclovida.mx/v2/especies/busqueda/region"
   let params = {

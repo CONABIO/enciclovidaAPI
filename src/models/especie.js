@@ -11,22 +11,68 @@ const Especie = class Especie {
   static getEspecies = async (req) => {
     const { pagina, por_pagina } = paginadoDefault(req.query)
     const url = `${enciclovidaURL}/busquedas/resultados.json`
-    const params = {
-      busqueda: "avanzada",
-      por_pagina: por_pagina,
-      pagina: pagina,
+    const params = {}
+
+    if (!_.isNil(req.query.especie_id)) params.id = req.query.especie_id
+
+    if (!_.isEmpty(req.query.dist)) params.dist = req.query.dist
+
+    // Este campo se separo en nom, iucn y cites para hacerlo mas entendible,
+    // de regreso en el query se vuelven a juntar
+    let edo_cons = _.concat(
+      req.query.nom_ids,
+      req.query.iucn_ids,
+      req.query.cites_ids,
+      req.query.ev_conabio_ids
+    )
+
+    edo_cons = _.compact(edo_cons)
+
+    if (!_.isEmpty(edo_cons)) params.edo_cons = edo_cons
+
+    if (!_.isEmpty(req.query.uso)) params.uso = req.query.uso
+
+    if (!_.isEmpty(req.query.forma)) params.forma = req.query.forma
+
+    if (!_.isEmpty(req.query.ambiente)) params.ambiente = req.query.ambiente
+
+    params.pagina = pagina
+    params.por_pagina = por_pagina
+    params.busqueda = "avanzada"
+
+    if (_.isNil(params.id)) {
+      // Cuando NO seleccion un taxon para sacar sus especies
+      return await ajaxRequest(url, params).then((especies) => {
+        let resultados = {
+          pagina: pagina,
+          especies: especies.data.taxa,
+        }
+
+        if (pagina == 1) resultados.num_especies = especies.data.x_total_entries
+
+        return resultados
+      })
+    } else {
+      return await Especie.getEspecie({ params: { id: params.id } }).then(
+        async (especie) => {
+          // Nos aseguramos que sea una division o phylum y siempre regresa especies
+          params.nivel = "="
+          params.cat = `7${especie.e_categoria_taxonomica.IdNivel2}00`
+
+          return await ajaxRequest(url, params).then((especies) => {
+            let resultados = {
+              pagina: pagina,
+              especies: especies.data.taxa,
+            }
+
+            if (pagina == 1)
+              resultados.num_especies = especies.data.x_total_entries
+
+            return resultados
+          })
+        }
+      )
     }
-
-    return await ajaxRequest(url, params).then((especies) => {
-      let resultados = {
-        pagina: pagina,
-        especies: especies.data.taxa,
-      }
-
-      if (pagina == 1) resultados.num_especies = especies.data.x_total_entries
-
-      return resultados
-    })
   }
 
   /**
@@ -115,10 +161,6 @@ const Especie = class Especie {
     })
   }
 }
-
-//{"tipo_region"=>"municipio", "region_id"=>"204", "especie_id"=>"22654", "correo"=>"calonso@conabio.gob.mx", "guia"=>"1", "nivel"=>">=", "cat"=>"7100", "id_gi"=>"22654", "pagina"=>"1", "por_pagina"=>"50"}
-
-//{"utf8"=>"✓", "nombre_region"=>"Coyoacán, Ciudad de México", "region_id"=>"204", "tipo_region"=>"municipio", "especie_id"=>"22654", "pagina"=>"1", "nivel"=>"=", "cat"=>"7100", "id_gi"=>"22654", "correo"=>"calonso@conabio.gob.mx", "guia"=>"1"}
 
 Especie.basicFields = ["entid", "nom_ent"]
 Especie.tableName = "estados"

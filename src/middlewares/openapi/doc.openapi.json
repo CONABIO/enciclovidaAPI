@@ -29,6 +29,15 @@
         "description": "Regresa un listado de especies ordenados por su clasificación taxonómica",
         "operationId": "getEspecies",
         "parameters": [
+          { "$ref": "#/components/parameters/Especie" },
+          { "$ref": "#/components/parameters/TipoDistribucion" },
+          { "$ref": "#/components/parameters/NOM" },
+          { "$ref": "#/components/parameters/IUCN" },
+          { "$ref": "#/components/parameters/CITES" },
+          { "$ref": "#/components/parameters/EvaluacionCONABIO" },
+          { "$ref": "#/components/parameters/Uso" },
+          { "$ref": "#/components/parameters/Forma" },
+          { "$ref": "#/components/parameters/Ambiente" },
           { "$ref": "#/components/parameters/Pagina" },
           { "$ref": "#/components/parameters/PorPagina" }
         ],
