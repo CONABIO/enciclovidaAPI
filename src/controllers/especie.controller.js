@@ -63,6 +63,19 @@ const getEspecieDescripcion = (req, res, next) => {
     )
 }
 
+const getEspecieMedia = (req, res, next) => {
+  validateReq(req.params, getEspecieReq)
+    .then((validated) => Especie.getEspecieMedia({ params: validated }))
+    //.then((media) => Especie.getEspecieMediaObject(media))
+    .then((mediaObject) => res.send(mediaObject))
+    .catch(
+      (errorHandler = (err) => {
+        console.log("ERROR: ", err.message)
+        next()
+      })
+    )
+}
+
 const getEspeciesBusquedaRegion = (req, res, next) => {
   validateReq(req.query, getEspeciesBusquedaRegionReq)
     .then((validated) =>
@@ -153,6 +166,7 @@ module.exports = {
   getEspecies,
   getEspecie,
   getEspecieDescripcion,
+  getEspecieMedia,
   getEspeciesBusquedaRegion,
   //getEspeciesBusquedaRegionIconos,
 }

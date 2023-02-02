@@ -79,6 +79,20 @@
       }
     },
 
+    "/especies/{id}/media": {
+      "get": {
+        "tags": ["Especie"],
+        "summary": "Consulta si hay fotos, videos o audios.",
+        "description": "Regresa las fotos, videos y audios del BDI, Naturalista, Macaulay Library, Tropicos y Xeno-canto. OJO este es un recurso que consulta al vuelo en distintas fuentes y puede demorar en traer la respuesta.",
+        "operationId": "getEspecieMedia",
+        "parameters": [{ "$ref": "#/components/parameters/EspeciePath" }],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
     "/especies/busqueda/region": {
       "get": {
         "tags": ["Especie"],

@@ -95,6 +95,75 @@ const Especie = class Especie {
     return await ajaxRequest(url, params).then((especie) => especie.data)
   }
 
+  static getEspecieMedia = async (req) => {
+    const bdiPhoto = `${enciclovidaURL}/especies/${req.params.id}/bdi-photos.json`
+    const bdiPhotoParams = { type: "photo", api: "1" }
+    const bdiUso = `${enciclovidaURL}/especies/${req.params.id}/bdi-photos.json`
+    const bdiUsoParams = { album: "usos", api: "1" }
+    const naturalistaPhoto = `${enciclovidaURL}/especies/${req.params.id}/fotos-naturalista.json`
+    const naturalistaPhotoParams = { api: "1" }
+    const xenocantoAudio = `${enciclovidaURL}/especies/${req.params.id}/xeno-canto.json`
+    const xenocantoAudioParams = { type: "audio" }
+    const macaulayPhoto = `${enciclovidaURL}/especies/${req.params.id}/media-cornell.json`
+    const macaulayPhotoParams = { type: "photo" }
+    const macaulayVideo = `${enciclovidaURL}/especies/${req.params.id}/media-cornell.json`
+    const macaulayVideoParams = { type: "video" }
+    const macaulayAudio = `${enciclovidaURL}/especies/${req.params.id}/media-cornell.json`
+    const macaulayAudioParams = { type: "audio" }
+    const tropicosPhoto = `${enciclovidaURL}/especies/${req.params.id}/media-tropicos.json`
+    const tropicosPhotoParams = {}
+
+    return await Promise.all([
+      ajaxRequest(bdiPhoto, bdiPhotoParams),
+      ajaxRequest(bdiUso, bdiUsoParams),
+      ajaxRequest(naturalistaPhoto, naturalistaPhotoParams),
+      ajaxRequest(xenocantoAudio, xenocantoAudioParams),
+      ajaxRequest(macaulayPhoto, macaulayPhotoParams),
+      ajaxRequest(macaulayVideo, macaulayVideoParams),
+      ajaxRequest(macaulayAudio, macaulayAudioParams),
+      ajaxRequest(tropicosPhoto, tropicosPhotoParams),
+    ]).then((medias) => {
+      const media = {}
+      let fotos = []
+      let videos = []
+      let audios = []
+
+      const bdiPhotoRes = medias[0].data
+      if (_.isArray(bdiPhotoRes)) fotos = _.concat(fotos, bdiPhotoRes)
+
+      const bdiUsoRes = medias[1].data
+      if (_.isArray(bdiUsoRes)) fotos = _.concat(fotos, bdiUsoRes)
+
+      const naturalistaPhotoRes = medias[2].data
+      if (_.isArray(naturalistaPhotoRes))
+        fotos = _.concat(fotos, naturalistaPhotoRes)
+
+      const xenocantoAudioRes = medias[3].data
+      if (_.isArray(xenocantoAudioRes))
+        audios = _.concat(audios, xenocantoAudioRes)
+
+      const macaulayPhotoRes = medias[4].data
+      if (_.isArray(macaulayPhotoRes)) fotos = _.concat(fotos, macaulayPhotoRes)
+
+      const macaulayVideoRes = medias[5].data
+      if (_.isArray(macaulayVideoRes))
+        videos = _.concat(videos, macaulayVideoRes)
+
+      const macaulayAudioRes = medias[6].data
+      if (_.isArray(macaulayAudioRes))
+        audios = _.concat(audios, macaulayAudioRes)
+
+      const tropicosPhotoRes = medias[7].data
+      if (_.isArray(tropicosPhotoRes)) fotos = _.concat(fotos, tropicosPhotoRes)
+
+      if (fotos.length > 0) media.fotos = fotos
+      if (videos.length > 0) media.videos = videos
+      if (audios.length > 0) media.audios = audios
+
+      return media
+    })
+  }
+
   /**
    * Es la misma informacion de la busqueda por region de rails
    * La respuesta es diferente a la de getEspecies por que una viene de
