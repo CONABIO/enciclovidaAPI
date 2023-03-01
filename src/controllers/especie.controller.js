@@ -7,16 +7,21 @@ const {
   getEspeciesBusquedaRegionReq,
 } = require("../middlewares/openapi/schema/request/especie.request")
 const { validateReq } = require("../utils/helper.util")
+const {
+  shared,
+} = require("../middlewares/openapi/schema/request/helper.request")
 //const { ajaxRequest } = require("../utils/helper.util")
 
-const getEspecies = (req, res, next) => {
+const getEspecies = async (req, res, next) => {
   validateReq(req.query, getEspeciesReq)
-    .then((validated) => Especie.getEspecies({ query: validated }))
-    .then((resultados) => {
+    .then(async (validated) => await Especie.getEspecies({ query: validated }))
+    .then(async (resultados) => {
       // Para poner los totales en el header solo en la primera pagina
       if (resultados.pagina == 1) {
         res.setHeader("num_especies", resultados.num_especies)
       }
+
+      res.setHeader("shared-url", resultados.sharedUrl)
       res.send(resultados.especies)
     })
     .catch(
@@ -27,10 +32,13 @@ const getEspecies = (req, res, next) => {
     )
 }
 
-const getEspecie = (req, res, next) => {
+const getEspecie = async (req, res, next) => {
   validateReq(req.params, getEspecieReq)
-    .then((validated) => Especie.getEspecie({ params: validated }))
-    .then((especie) => res.send(especie))
+    .then(async (validated) => await Especie.getEspecie({ params: validated }))
+    .then(async ({ especie, sharedUrl }) => {
+      res.setHeader("shared-url", sharedUrl)
+      return await res.send(especie)
+    })
     .catch(
       (errorHandler = (err) => {
         console.log("ERROR: ", err.message)
@@ -87,6 +95,8 @@ const getEspeciesBusquedaRegion = (req, res, next) => {
         res.setHeader("num_especies", resultados.num_especies)
         res.setHeader("num_ejemplares", resultados.num_ejemplares)
       }
+
+      res.setHeader("shared-url", resultados.sharedUrl)
       res.send(resultados.especies)
     })
     .catch(

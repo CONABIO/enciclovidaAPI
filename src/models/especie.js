@@ -41,20 +41,20 @@ const Especie = class Especie {
     params.busqueda = "avanzada"
 
     if (_.isNil(params.id)) {
-      // Cuando NO seleccion un taxon para sacar sus especies
-      return await ajaxRequest(url, params).then((especies) => {
+      // Cuando NO selecciono un taxon para sacar sus especies
+      return await ajaxRequest(url, params).then(async (especies) => {
         let resultados = {
           pagina: pagina,
           especies: especies.data.taxa,
+          sharedUrl: especies.request.res.responseUrl.replace(".json", ""),
         }
 
         if (pagina == 1) resultados.num_especies = especies.data.x_total_entries
-
         return resultados
       })
     } else {
       return await Especie.getEspecie({ params: { id: params.id } }).then(
-        async (especie) => {
+        async ({ especie, sharedUrl }) => {
           // Nos aseguramos que sea una division o phylum y siempre regresa especies
           params.nivel = "="
           params.cat = `7${especie.e_categoria_taxonomica.IdNivel2}00`
@@ -63,6 +63,7 @@ const Especie = class Especie {
             let resultados = {
               pagina: pagina,
               especies: especies.data.taxa,
+              sharedUrl: especies.request.res.responseUrl.replace(".json", ""),
             }
 
             if (pagina == 1)
@@ -84,7 +85,15 @@ const Especie = class Especie {
     const url = `${enciclovidaURL}/especies/${req.params.id}.json`
     const params = {}
 
-    return await ajaxRequest(url, params).then((especie) => especie.data)
+    return await ajaxRequest(url, params).then(async (especie) => {
+      const sharedUrl = `${enciclovidaURL}/especies/${
+        req.params.id
+      }-${especie.data.NombreCompleto.trim()
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9 -]/, "")
+        .replace(/\s/g, "-")}`
+      return { especie: especie.data, sharedUrl: sharedUrl }
+    })
   }
 
   static getEspecieDescripcion = async (req) => {
@@ -218,6 +227,9 @@ const Especie = class Especie {
         resultados.especies = especies.data
       } else {
         resultados.especies = especies.data.taxones
+        resultados.sharedUrl = especies.request.res.responseUrl
+          .replace(".json", "")
+          .replace("/especies", "")
 
         if (pagina == 1) {
           resultados.pagina = pagina
