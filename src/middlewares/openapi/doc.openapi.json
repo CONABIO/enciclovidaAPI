@@ -446,15 +446,15 @@
       "Fuente": {
         "name": "fuente",
         "in": "query",
-        "description": "Fuente:\n * `conabio` - Descripción completa de CONABIO\n * `wikipedia_es` - Wikipedia en español\n * `iucn` - Descripción de IUCN\n * `wikipedia_en` - Wikipedia en inglés\n * `conabio_tecnico` - Metadatos de CONABIO",
+        "description": "Fuente:\n * `conabio_dgcc` - CONABIO (resumen) \n * `conabio` - CONABIO (descripción) \n * `wikipedia_es` - Wikipedia en español\n * `iucn` - Descripción de IUCN\n * `wikipedia_en` - Wikipedia en inglés",
         "schema": {
           "type": "string",
           "enum": [
+            "conabio_dgcc",
             "conabio",
             "wikipedia_es",
             "iucn",
-            "wikipedia_en",
-            "conabio_tecnico"
+            "wikipedia_en"
           ]
         }
       },

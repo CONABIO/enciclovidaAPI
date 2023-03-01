@@ -7,11 +7,11 @@ const getEspecieReq = Joi.object({
 
 const getEspecieDescripcionReq = Joi.object({
   fuente: Joi.string().valid(
+    "conabio_dgcc",
     "conabio",
     "wikipedia_es",
     "wikipedia_en",
-    "iucn",
-    "conabio_tecnico"
+    "iucn"
   ),
 })
 
