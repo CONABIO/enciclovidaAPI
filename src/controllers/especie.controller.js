@@ -5,12 +5,10 @@ const {
   getEspecieDescripcionReq,
   getEspeciesReq,
   getEspeciesBusquedaRegionReq,
+  getEncuentraPorNombreReq,
+  getEspecieDescripcionPorNombreReq,
 } = require("../middlewares/openapi/schema/request/especie.request")
 const { validateReq } = require("../utils/helper.util")
-const {
-  shared,
-} = require("../middlewares/openapi/schema/request/helper.request")
-//const { ajaxRequest } = require("../utils/helper.util")
 
 const getEspecies = async (req, res, next) => {
   validateReq(req.query, getEspeciesReq)
@@ -107,6 +105,35 @@ const getEspeciesBusquedaRegion = (req, res, next) => {
     )
 }
 
+const getEncuentraPorNombre = (req, res, next) => {
+  validateReq(req.query, getEncuentraPorNombreReq)
+    .then((query) => Especie.getEncuentraPorNombre({ query: query }))
+    .then((especies) => res.send(especies))
+    .catch(
+      (errorHandler = (err) => {
+        console.log("ERROR: ", err.message)
+        next()
+      })
+    )
+}
+
+const getEspecieDescripcionPorNombre = (req, res, next) => {
+  validateReq(req.query, getEspecieDescripcionPorNombreReq)
+    .then((query) => Especie.getEspecieDescripcionPorNombre({ query: query }))
+    .then((descripcion) => {
+      if (descripcion == "") {
+        res.set("Content-Type", "text/html")
+        res.send("<div>Sin descripción</div>")
+      } else res.send(descripcion)
+    })
+    .catch(
+      (errorHandler = (err) => {
+        console.log("ERROR: ", err.message)
+        next()
+      })
+    )
+}
+
 /*
 const getEspeciesBusquedaRegionIconos = (req, res, next) => {
   ajaxEspecies()
@@ -178,5 +205,7 @@ module.exports = {
   getEspecieDescripcion,
   getEspecieMedia,
   getEspeciesBusquedaRegion,
+  getEncuentraPorNombre,
+  getEspecieDescripcionPorNombre,
   //getEspeciesBusquedaRegionIconos,
 }

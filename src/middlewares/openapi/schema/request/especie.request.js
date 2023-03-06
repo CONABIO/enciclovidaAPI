@@ -1,4 +1,5 @@
 const Joi = require("joi")
+const { getEspecieDescripcionPorNombre } = require("../../../../models/especie")
 const PaginadoReq = require("./helper.request")
 
 const getEspecieReq = Joi.object({
@@ -8,11 +9,13 @@ const getEspecieReq = Joi.object({
 const getEspecieDescripcionReq = Joi.object({
   fuente: Joi.string().valid(
     "conabio_dgcc",
+    "conabio_inat",
     "conabio",
     "wikipedia_es",
     "wikipedia_en",
     "iucn"
   ),
+  sin_fuente: Joi.boolean().default(true),
 })
 
 const getEspeciesReq = PaginadoReq.keys({
@@ -163,9 +166,27 @@ const getEspeciesBusquedaRegionReq = PaginadoReq.keys({
   correo: Joi.string().email(),
 })
 
+const getEncuentraPorNombreReq = Joi.object({
+  nombre: Joi.string()
+    .min(3)
+    .max(50)
+    .description("Nombre científico")
+    .required(),
+})
+
+const getEspecieDescripcionPorNombreReq = getEspecieDescripcionReq.append({
+  nombre: Joi.string()
+    .min(3)
+    .max(50)
+    .description("Nombre científico")
+    .required(),
+})
+
 module.exports = {
   getEspecieReq,
   getEspecieDescripcionReq,
   getEspeciesReq,
   getEspeciesBusquedaRegionReq,
+  getEncuentraPorNombreReq,
+  getEspecieDescripcionPorNombreReq,
 }

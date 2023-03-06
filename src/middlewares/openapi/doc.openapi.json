@@ -70,7 +70,8 @@
         "operationId": "getEspecieDescripcion",
         "parameters": [
           { "$ref": "#/components/parameters/EspeciePath" },
-          { "$ref": "#/components/parameters/Fuente" }
+          { "$ref": "#/components/parameters/Fuente" },
+          { "$ref": "#/components/parameters/SinFuente" }
         ],
         "responses": {
           "200": { "$ref": "#/components/schemas/ValidResponse" },
@@ -115,6 +116,40 @@
           { "$ref": "#/components/parameters/Correo" },
           { "$ref": "#/components/parameters/Pagina" },
           { "$ref": "#/components/parameters/PorPagina" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
+    "/especies/encuentra-por-nombre": {
+      "get": {
+        "tags": ["Especie"],
+        "summary": "Busca una especie",
+        "description": "Regresa la(s) especie(s) que coincidan con el nombre científico",
+        "operationId": "encuentraPorNombre",
+        "parameters": [
+          { "$ref": "#/components/parameters/EncuentraPorNombre" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
+    "/especies/descripcion-por-nombre": {
+      "get": {
+        "tags": ["Especie"],
+        "summary": "Descripción de la especie por nombre",
+        "description": "Tiene que ser el nombre científico y tiene que coincidir al 100%, por defaul regresa la descripción de CONABIO técnico.",
+        "operationId": "descripcionPorNombre",
+        "parameters": [
+          { "$ref": "#/components/parameters/EncuentraPorNombre" },
+          { "$ref": "#/components/parameters/Fuente" },
+          { "$ref": "#/components/parameters/SinFuente" }
         ],
         "responses": {
           "200": { "$ref": "#/components/schemas/ValidResponse" },
@@ -443,19 +478,40 @@
           "maximum": 500000
         }
       },
+      "EncuentraPorNombre": {
+        "name": "nombre",
+        "in": "query",
+        "required": true,
+        "description": "Nombre científico",
+        "schema": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 50
+        }
+      },
       "Fuente": {
         "name": "fuente",
         "in": "query",
-        "description": "Fuente:\n * `conabio_dgcc` - CONABIO (resumen) \n * `conabio` - CONABIO (descripción) \n * `wikipedia_es` - Wikipedia en español\n * `iucn` - Descripción de IUCN\n * `wikipedia_en` - Wikipedia en inglés",
+        "description": "Fuente:\n * `conabio_dgcc` - CONABIO (resumen) \n * `conabio_inat` - CONABIO (NaturaLista) \n * `conabio` - CONABIO (descripción) \n * `wikipedia_es` - Wikipedia en español\n * `iucn` - Descripción de IUCN\n * `wikipedia_en` - Wikipedia en inglés",
         "schema": {
           "type": "string",
           "enum": [
             "conabio_dgcc",
             "conabio",
+            "conabio_inat",
             "wikipedia_es",
             "iucn",
             "wikipedia_en"
           ]
+        }
+      },
+      "SinFuente": {
+        "name": "sin_fuente",
+        "in": "query",
+        "description": "Este campo es para que no salga la fuente en modo de dropdown en la respuesta",
+        "schema": {
+          "type": "boolean",
+          "default": true
         }
       },
       "Especie": {

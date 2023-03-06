@@ -97,10 +97,15 @@ const Especie = class Especie {
   }
 
   static getEspecieDescripcion = async (req) => {
+    console.log(req, "getEspecieDescripcion")
     const url = `${enciclovidaURL}/especies/${req.params.id}/descripcion`
     const params = {}
 
     if (!_.isNil(req.query.fuente)) params.from = req.query.fuente
+    if (!_.isNil(req.query.sin_fuente)) {
+      if (req.query.sin_fuente) params.sin_fuente = "1"
+      else params.sin_fuente = "0"
+    }
     return await ajaxRequest(url, params).then((especie) => especie.data)
   }
 
@@ -239,6 +244,24 @@ const Especie = class Especie {
       }
 
       return resultados
+    })
+  }
+
+  static getEncuentraPorNombre = async (req) => {
+    return await ajaxRequest(
+      `${enciclovidaURL}/validaciones/encuentra-por-nombre.json`,
+      req.query
+    ).then(async (especie) => await especie.data)
+  }
+
+  static getEspecieDescripcionPorNombre = async (req) => {
+    return await Especie.getEncuentraPorNombre(req).then(async (especie) => {
+      if (especie.estatus && especie.msg == "Búsqueda exacta") {
+        return await Especie.getEspecieDescripcion({
+          params: { id: especie.taxon.IdNombre },
+          query: req.query,
+        })
+      } else return ""
     })
   }
 }
