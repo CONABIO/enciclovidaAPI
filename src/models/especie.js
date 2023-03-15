@@ -97,7 +97,6 @@ const Especie = class Especie {
   }
 
   static getEspecieDescripcion = async (req) => {
-    console.log(req, "getEspecieDescripcion")
     const url = `${enciclovidaURL}/especies/${req.params.id}/descripcion`
     const params = {}
 
@@ -261,7 +260,7 @@ const Especie = class Especie {
           params: { id: especie.taxon.IdNombre },
           query: req.query,
         })
-      } else return ""
+      } else return { estatus: false }
     })
   }
 }

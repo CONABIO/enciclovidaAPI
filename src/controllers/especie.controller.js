@@ -121,9 +121,9 @@ const getEspecieDescripcionPorNombre = (req, res, next) => {
   validateReq(req.query, getEspecieDescripcionPorNombreReq)
     .then((query) => Especie.getEspecieDescripcionPorNombre({ query: query }))
     .then((descripcion) => {
-      if (descripcion == "") {
+      if (!descripcion.estatus) {
         res.set("Content-Type", "text/html")
-        res.send("<div>Sin descripción</div>")
+        res.send("<div></div>")
       } else res.send(descripcion)
     })
     .catch(
