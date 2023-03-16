@@ -260,7 +260,7 @@ const Especie = class Especie {
           params: { id: especie.taxon.IdNombre },
           query: req.query,
         })
-      } else return { estatus: false }
+      } else return "<div></div>"
     })
   }
 }
