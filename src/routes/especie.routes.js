@@ -8,6 +8,7 @@ const {
   getEncuentraPorNombre,
   getEspecieDescripcionPorNombre,
   getEspecieRegistros,
+  getEspecieClasificacion,
   //getEspeciesBusquedaRegionIconos,
 } = require("../controllers/especie.controller")
 
@@ -21,6 +22,7 @@ router
   .route("/especies/descripcion-por-nombre")
   .get(getEspecieDescripcionPorNombre)
 router.route("/especies/:id(\\d+)/registros").get(getEspecieRegistros)
+router.route("/especies/:id(\\d+)/clasificacion").get(getEspecieClasificacion)
 // router
 //   .route("/especies/busqueda/region/iconos")
 //   .get(getEspeciesBusquedaRegionIconos)

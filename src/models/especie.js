@@ -276,6 +276,13 @@ const Especie = class Especie {
       async (registros) => await registros.data
     )
   }
+
+  static getEspecieClasificacion = async (req) => {
+    return await ajaxRequest(
+      `${enciclovidaURL}/explora-por-clasificacion.json`,
+      req.params
+    ).then(async (clasificacion) => await clasificacion.data)
+  }
 }
 
 Especie.basicFields = ["entid", "nom_ent"]

@@ -155,6 +155,25 @@ const getEspecieRegistros = (req, res, next) => {
     )
 }
 
+const getEspecieClasificacion = (req, res, next) => {
+  validateReq(req.params, getEspecieReq)
+    .then(
+      async (especie_id) =>
+        await Especie.getEspecieClasificacion({
+          params: especie_id,
+        })
+    )
+    .then(async (clasificacion) => {
+      await res.send(clasificacion)
+    })
+    .catch(
+      (errorHandler = (err) => {
+        console.log("ERROR: ", err.message)
+        next()
+      })
+    )
+}
+
 /*
 const getEspeciesBusquedaRegionIconos = (req, res, next) => {
   ajaxEspecies()
@@ -229,5 +248,6 @@ module.exports = {
   getEncuentraPorNombre,
   getEspecieDescripcionPorNombre,
   getEspecieRegistros,
+  getEspecieClasificacion,
   //getEspeciesBusquedaRegionIconos,
 }

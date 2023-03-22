@@ -94,6 +94,38 @@
       }
     },
 
+    "/especies/{id}/registros": {
+      "get": {
+        "tags": ["Especie"],
+        "summary": "Regresa los registros de una especie",
+        "description": "Regresa los registros de acuerdo al formato y collecion seleccionados.",
+        "operationId": "getEspecieRegistros",
+        "parameters": [
+          { "$ref": "#/components/parameters/EspeciePath" },
+          { "$ref": "#/components/parameters/Formato" },
+          { "$ref": "#/components/parameters/Coleccion" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
+    "/especies/{id}/clasificacion": {
+      "get": {
+        "tags": ["Especie"],
+        "summary": "Regresa la clasificación de la especie",
+        "description": "Regresa un objeto anidado con las clasificaciones taxonomicas de la especie: reino, phylum/divion, orden, clase, familia, genero, especie.",
+        "operationId": "getEspecieClasificacion",
+        "parameters": [{ "$ref": "#/components/parameters/EspeciePath" }],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
     "/especies/busqueda/region": {
       "get": {
         "tags": ["Especie"],
@@ -150,24 +182,6 @@
           { "$ref": "#/components/parameters/EncuentraPorNombre" },
           { "$ref": "#/components/parameters/Fuente" },
           { "$ref": "#/components/parameters/SinFuente" }
-        ],
-        "responses": {
-          "200": { "$ref": "#/components/schemas/ValidResponse" },
-          "default": { "$ref": "#/components/schemas/Default" }
-        }
-      }
-    },
-
-    "/especies/{id}/registros": {
-      "get": {
-        "tags": ["Especie"],
-        "summary": "Regresa los registros de una especie",
-        "description": "Regresa los registros de acuerdo al formato y collecion seleccionados.",
-        "operationId": "getEspecieRegistros",
-        "parameters": [
-          { "$ref": "#/components/parameters/EspeciePath" },
-          { "$ref": "#/components/parameters/Formato" },
-          { "$ref": "#/components/parameters/Coleccion" }
         ],
         "responses": {
           "200": { "$ref": "#/components/schemas/ValidResponse" },
