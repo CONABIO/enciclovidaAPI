@@ -263,6 +263,19 @@ const Especie = class Especie {
       } else return "<div></div>"
     })
   }
+
+  static getEspecieRegistros = async (req) => {
+    let url = ""
+    if (req.query.formato == "mapa-app") {
+      url = `${enciclovidaURL}/especies/${req.params.id}/consulta-registros.json`
+    } else {
+      url = `${enciclovidaURL}/especies/${req.params.id}/consulta-registros.${req.query.formato}`
+    }
+
+    return await ajaxRequest(url, req.query).then(
+      async (registros) => await registros.data
+    )
+  }
 }
 
 Especie.basicFields = ["entid", "nom_ent"]

@@ -7,6 +7,7 @@ const {
   getEspeciesBusquedaRegionReq,
   getEncuentraPorNombreReq,
   getEspecieDescripcionPorNombreReq,
+  getEspecieRegistrosReq,
 } = require("../middlewares/openapi/schema/request/especie.request")
 const { validateReq } = require("../utils/helper.util")
 
@@ -32,7 +33,7 @@ const getEspecies = async (req, res, next) => {
 
 const getEspecie = async (req, res, next) => {
   validateReq(req.params, getEspecieReq)
-    .then(async (validated) => await Especie.getEspecie({ params: validated }))
+    .then(async (params) => await Especie.getEspecie({ params: params }))
     .then(async ({ especie, sharedUrl }) => {
       res.setHeader("shared-url", sharedUrl)
       return await res.send(especie)
@@ -131,6 +132,29 @@ const getEspecieDescripcionPorNombre = (req, res, next) => {
     )
 }
 
+const getEspecieRegistros = (req, res, next) => {
+  Promise.all([
+    validateReq(req.params, getEspecieReq),
+    validateReq(req.query, getEspecieRegistrosReq),
+  ])
+    .then(
+      async (validated) =>
+        await Especie.getEspecieRegistros({
+          params: validated[0],
+          query: validated[1],
+        })
+    )
+    .then(async (registros) => {
+      await res.send(registros)
+    })
+    .catch(
+      (errorHandler = (err) => {
+        console.log("ERROR: ", err.message)
+        next()
+      })
+    )
+}
+
 /*
 const getEspeciesBusquedaRegionIconos = (req, res, next) => {
   ajaxEspecies()
@@ -204,5 +228,6 @@ module.exports = {
   getEspeciesBusquedaRegion,
   getEncuentraPorNombre,
   getEspecieDescripcionPorNombre,
+  getEspecieRegistros,
   //getEspeciesBusquedaRegionIconos,
 }

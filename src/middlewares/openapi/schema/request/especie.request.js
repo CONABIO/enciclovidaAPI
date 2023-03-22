@@ -182,6 +182,11 @@ const getEspecieDescripcionPorNombreReq = getEspecieDescripcionReq.append({
     .required(),
 })
 
+const getEspecieRegistrosReq = Joi.object({
+  formato: Joi.string().valid("json", "kml", "kmz", "mapa-app").required(),
+  coleccion: Joi.string().valid("naturalista", "snib").required(),
+})
+
 module.exports = {
   getEspecieReq,
   getEspecieDescripcionReq,
@@ -189,4 +194,5 @@ module.exports = {
   getEspeciesBusquedaRegionReq,
   getEncuentraPorNombreReq,
   getEspecieDescripcionPorNombreReq,
+  getEspecieRegistrosReq,
 }

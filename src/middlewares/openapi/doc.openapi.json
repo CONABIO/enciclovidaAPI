@@ -158,6 +158,24 @@
       }
     },
 
+    "/especies/{id}/registros": {
+      "get": {
+        "tags": ["Especie"],
+        "summary": "Regresa los registros de una especie",
+        "description": "Regresa los registros de acuerdo al formato y collecion seleccionados.",
+        "operationId": "getEspecieRegistros",
+        "parameters": [
+          { "$ref": "#/components/parameters/EspeciePath" },
+          { "$ref": "#/components/parameters/Formato" },
+          { "$ref": "#/components/parameters/Coleccion" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
     "/registros": {
       "get": {
         "tags": ["Registro"],
@@ -512,6 +530,26 @@
         "schema": {
           "type": "boolean",
           "default": true
+        }
+      },
+      "Formato": {
+        "name": "formato",
+        "in": "query",
+        "required": true,
+        "description": "El formato para la descarga de los registros. El formato * `mapa-app` es utilizado solamente por la app de EncicloVida, contiene solo la información de las coordenadas.",
+        "schema": {
+          "type": "string",
+          "enum": ["json", "kml", "kmz", "mapa-app"]
+        }
+      },
+      "Coleccion": {
+        "name": "coleccion",
+        "in": "query",
+        "required": true,
+        "description": "Disponibles solo registros del SNIB y observaciones de NaturaLista.",
+        "schema": {
+          "type": "string",
+          "enum": ["snib", "naturalista"]
         }
       },
       "Especie": {
