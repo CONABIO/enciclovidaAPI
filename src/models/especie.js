@@ -280,7 +280,7 @@ const Especie = class Especie {
   static getEspecieClasificacion = async (req) => {
     return await ajaxRequest(
       `${enciclovidaURL}/explora-por-clasificacion.json`,
-      req.params
+      { especie_id: req.params.id }
     ).then(async (clasificacion) => await clasificacion.data)
   }
 }
