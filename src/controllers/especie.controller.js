@@ -93,7 +93,7 @@ const getEspeciesBusquedaRegion = (req, res, next) => {
         // Solo mando un json para saber si fue correcto.
         res.send({
           estatus: true,
-          msg: "La guía fue generada exitosamente. Se te enviará un corrreo para la descraga.",
+          msg: "La guía fue generada exitosamente. Se te enviará un corrreo para la descarga.",
         })
       } else {
         // Para poner los totales en el header solo en la primera pagina
