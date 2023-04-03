@@ -89,14 +89,22 @@ const getEspeciesBusquedaRegion = (req, res, next) => {
       Especie.getEspeciesBusquedaRegion({ query: validated })
     )
     .then((resultados) => {
-      // Para poner los totales en el header solo en la primera pagina
-      if (resultados.pagina == 1) {
-        res.setHeader("num_especies", resultados.num_especies)
-        res.setHeader("num_ejemplares", resultados.num_ejemplares)
-      }
+      if (req.query.guia) {
+        // Solo mando un json para saber si fue correcto.
+        res.send({
+          estatus: true,
+          msg: "La guía fue generada exitosamente. Se te enviará un corrreo para la descraga.",
+        })
+      } else {
+        // Para poner los totales en el header solo en la primera pagina
+        if (resultados.pagina == 1) {
+          res.setHeader("num_especies", resultados.num_especies)
+          res.setHeader("num_ejemplares", resultados.num_ejemplares)
+        }
 
-      res.setHeader("shared-url", resultados.sharedUrl)
-      res.send(resultados.especies)
+        res.setHeader("shared-url", resultados.sharedUrl)
+        res.send(resultados.especies)
+      }
     })
     .catch(
       (errorHandler = (err) => {
