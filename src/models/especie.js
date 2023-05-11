@@ -88,10 +88,10 @@ const Especie = class Especie {
     return await ajaxRequest(url, params).then(async (especie) => {
       const sharedUrl = `${enciclovidaURL}/especies/${
         req.params.id
-      }-${especie.data.NombreCompleto.trim()
+      }-${especie.data.TaxonCompleto.trim()
         .toLowerCase()
-        .replace(/[^a-zA-Z0-9 -]/, "")
-        .replace(/\s/g, "-")}`
+        .replace(/\([^()]*\)/, "")
+        .replace(/\s+/g, "-")}`
       return { especie: especie.data, sharedUrl: sharedUrl }
     })
   }

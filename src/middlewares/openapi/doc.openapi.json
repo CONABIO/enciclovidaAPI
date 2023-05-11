@@ -736,7 +736,7 @@
       "Correo": {
         "name": "correo",
         "in": "query",
-        "description": "Para enviar a tu `correo` hay que seleccionar el campo `guia` o `lista`. Para la `guia` es necesario llenar estos campos:\n * `tipo_region`, solo valores \"municipio\" y \"anp\"\n * `region_id`\n * `especie_id`",
+        "description": "Para enviar a tu `correo` hay que seleccionar el campo `guia`. Es necesario llenar al menos uno de los siguientes campos (máximo 200 especies):\n * `tipo_region`, `especie_id`",
         "schema": {
           "type": "string",
           "format": "email"
