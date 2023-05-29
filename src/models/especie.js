@@ -77,6 +77,70 @@ const Especie = class Especie {
   }
 
   /**
+   * Es la misma respuesta de la busqueda avanzada de rails, solo el conteo total y por categorias
+   * @param {*} req
+   * @returns Un listado de especies
+   */
+  static getEspeciesConteo = async (req) => {
+    const url = `${enciclovidaURL}/busquedas/resultados.json`
+    const params = {}
+
+    if (!_.isNil(req.query.especie_id)) params.id = req.query.especie_id
+
+    if (!_.isEmpty(req.query.dist)) params.dist = req.query.dist
+
+    // Este campo se separo en nom, iucn y cites para hacerlo mas entendible,
+    // de regreso en el query se vuelven a juntar
+    let edo_cons = _.concat(
+      req.query.nom_ids,
+      req.query.iucn_ids,
+      req.query.cites_ids,
+      req.query.ev_conabio_ids
+    )
+
+    edo_cons = _.compact(edo_cons)
+
+    if (!_.isEmpty(edo_cons)) params.edo_cons = edo_cons
+
+    if (!_.isEmpty(req.query.uso)) params.uso = req.query.uso
+
+    if (!_.isEmpty(req.query.forma)) params.forma = req.query.forma
+
+    if (!_.isEmpty(req.query.ambiente)) params.ambiente = req.query.ambiente
+
+    params.busqueda = "avanzada"
+
+    if (_.isNil(params.id)) {
+      // Cuando NO selecciono un taxon para sacar sus especies
+      return await ajaxRequest(url, params).then(async (especies) => {
+        let resultados = {
+          totales: especies.data.x_total_entries,
+          por_categoria: especies.data.por_categroria,
+        }
+
+        return await resultados
+      })
+    } else {
+      return await Especie.getEspecie({ params: { id: params.id } }).then(
+        async ({ especie, sharedUrl }) => {
+          // Nos aseguramos que sea una division o phylum y siempre regresa especies
+          params.nivel = "="
+          params.cat = `7${especie.e_categoria_taxonomica.IdNivel2}00`
+
+          return await ajaxRequest(url, params).then(async (especies) => {
+            let resultados = {
+              totales: especies.data.x_total_entries,
+              por_categoria: especies.data.por_categroria,
+            }
+
+            return await resultados
+          })
+        }
+      )
+    }
+  }
+
+  /**
    * Es la misma respuesta de una especie desde rails
    * @param {*} req
    * @returns La informacion asociada a una especie

@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const {
   getEspecies,
+  getEspeciesConteo,
   getEspecie,
   getEspecieDescripcion,
   getEspecieMedia,
@@ -13,6 +14,7 @@ const {
 } = require("../controllers/especie.controller")
 
 router.route("/especies").get(getEspecies)
+router.route("/especies/conteo").get(getEspeciesConteo)
 router.route("/especies/:id(\\d+)").get(getEspecie)
 router.route("/especies/:id(\\d+)/descripcion").get(getEspecieDescripcion)
 router.route("/especies/:id(\\d+)/media").get(getEspecieMedia)

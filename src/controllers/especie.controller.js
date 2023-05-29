@@ -31,6 +31,20 @@ const getEspecies = async (req, res, next) => {
     )
 }
 
+const getEspeciesConteo = async (req, res, next) => {
+  validateReq(req.query, getEspeciesReq)
+    .then(
+      async (validated) => await Especie.getEspeciesConteo({ query: validated })
+    )
+    .then(async (resultados) => res.send(resultados))
+    .catch(
+      (errorHandler = (err) => {
+        console.log("ERROR: ", err.message)
+        next()
+      })
+    )
+}
+
 const getEspecie = async (req, res, next) => {
   validateReq(req.params, getEspecieReq)
     .then(async (params) => await Especie.getEspecie({ params: params }))
@@ -249,6 +263,7 @@ const ajaxIconos = (especies) => {
 
 module.exports = {
   getEspecies,
+  getEspeciesConteo,
   getEspecie,
   getEspecieDescripcion,
   getEspecieMedia,

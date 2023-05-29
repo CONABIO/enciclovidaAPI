@@ -48,6 +48,32 @@
       }
     },
 
+    "/especies/conteo": {
+      "get": {
+        "tags": ["Especie"],
+        "summary": "Consulta el conteo de especies por categoría taxonómica",
+        "description": "Regresa un listado de conteos de especies ordenados por su clasificación taxonómica",
+        "operationId": "getEspeciesConteo",
+        "parameters": [
+          { "$ref": "#/components/parameters/Especie" },
+          { "$ref": "#/components/parameters/TipoDistribucion" },
+          { "$ref": "#/components/parameters/NOM" },
+          { "$ref": "#/components/parameters/IUCN" },
+          { "$ref": "#/components/parameters/CITES" },
+          { "$ref": "#/components/parameters/EvaluacionCONABIO" },
+          { "$ref": "#/components/parameters/Uso" },
+          { "$ref": "#/components/parameters/Forma" },
+          { "$ref": "#/components/parameters/Ambiente" },
+          { "$ref": "#/components/parameters/Pagina" },
+          { "$ref": "#/components/parameters/PorPagina" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/schemas/ValidResponse" },
+          "default": { "$ref": "#/components/schemas/Default" }
+        }
+      }
+    },
+
     "/especies/{id}": {
       "get": {
         "tags": ["Especie"],
@@ -659,7 +685,7 @@
       "Uso": {
         "name": "uso",
         "in": "query",
-        "description": "Uso:\n * `11-4-0-0-0-0-0` - Ambiental\n * `11-16-0-0-0-0-0` - Artesanía\n * `11-5-0-0-0-0-0` - Combustible\n * `11-40-1-0-0-0-0` - Consumo animal\n * `11-40-2-0-0-0-0` - Consumo humano\n * `11-8-0-0-0-0-0` - Industrial\n * `11-47-0-0-0-0-0` - Maderable\n * `11-9-0-0-0-0-0` - Manejo de plagas\n * `11-10-0-0-0-0-0` - Materiales\n * `11-11-0-0-0-0-0` - Medicinal\n * `11-13-0-0-0-0-0` - Melífera\n * `11-15-0-0-0-0-0` - Ornamental\n * `11-14-0-0-0-0-0` - Sociales/religiosos",
+        "description": "Uso:\n * `11-4-0-0-0-0-0` - Ambiental\n * `11-16-0-0-0-0-0` - Artesanía\n * `11-5-0-0-0-0-0` - Combustible\n * `11-40-1-0-0-0-0` - Consumo animal\n * `11-40-2-0-0-0-0` - Consumo humano\n * `11-8-0-0-0-0-0` - Industrial\n * `11-47-0-0-0-0-0` - Maderable\n * `11-9-0-0-0-0-0` - Manejo de plagas\n * `11-10-0-0-0-0-0` - Materiales\n * `11-11-0-0-0-0-0` - Medicinal\n * `11-13-0-0-0-0-0` - Melífera\n * `11-15-0-0-0-0-0` - Ornamental\n * `25-1-0-0-0-0-0` - Parientes silvestres de cultivos\n * `11-14-0-0-0-0-0` - Sociales/religiosos",
         "schema": {
           "type": "array",
           "items": {
@@ -677,6 +703,7 @@
               "11-11-0-0-0-0-0",
               "11-13-0-0-0-0-0",
               "11-15-0-0-0-0-0",
+              "25-1-0-0-0-0-0",
               "11-14-0-0-0-0-0"
             ]
           }
